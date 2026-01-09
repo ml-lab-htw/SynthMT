@@ -1,0 +1,257 @@
+{
+  "model_name": "facebook/dinov2-large",
+  "embedding_layer": 5,
+  "hf_cache_dir": null,
+  "reference_video_path": "",
+  "reference_images_dir": "example_images",
+  "num_compare_frames": 3,
+  "temp_dir": ".temp",
+  "output_config_folder": "config/optimal_configs",
+  "output_config_num_best": 5,
+  "output_config_id": "example",
+  "output_config_num_frames": 50,
+  "output_config_num_png": 10,
+  "direction": "maximize",
+  "similarity_metric": "cosine",
+  "num_trials": 5,
+  "pca_components": 0,
+  "load_if_exists": true,
+  "img_size": [
+    512,
+    512
+  ],
+  "fps": 5,
+  "base_wagon_length_min_range": [
+    5.0,
+    15.0
+  ],
+  "base_wagon_length_max_range": [
+    30.0,
+    60.0
+  ],
+  "microtubule_length_min_range": [
+    20,
+    120
+  ],
+  "microtubule_length_max_range": [
+    120,
+    200
+  ],
+  "tail_wagon_length_range": [
+    5.0,
+    15.0
+  ],
+  "bending_angle_gamma_shape_range": [
+    0.5,
+    2.0
+  ],
+  "bending_angle_gamma_scale_range": [
+    0.01,
+    0.05
+  ],
+  "max_angle_sign_changes_range": [
+    0,
+    10
+  ],
+  "minus_end_target_length_std_range": [
+    1.0,
+    8.0
+  ],
+  "minus_end_target_length_mean_range": [
+    -2.0,
+    2.0
+  ],
+  "prob_to_flip_bend_range": [
+    0.0,
+    0.1
+  ],
+  "num_microtubule_range": [
+    5,
+    20
+  ],
+  "microtubule_seed_min_dist": 10,
+  "margin": 5,
+  "psf_sigma_h_range": [
+    0.3,
+    0.5
+  ],
+  "psf_sigma_v_range": [
+    0.4,
+    0.8
+  ],
+  "tubule_width_variation_range": [
+    0.05,
+    0.2
+  ],
+  "background_level_range": [
+    0.4,
+    0.9
+  ],
+  "tubulus_contrast_range": [
+    -0.6,
+    -0.3
+  ],
+  "seed_red_channel_boost_range": [
+    0.1,
+    0.3
+  ],
+  "tip_brightness_factor_range": [
+    1.0,
+    1.5
+  ],
+  "red_channel_noise_std_range": [
+    0.03,
+    0.1
+  ],
+  "quantum_efficiency_range": [
+    90.0,
+    110.0
+  ],
+  "gaussian_noise_range": [
+    0.1,
+    0.4
+  ],
+  "vignetting_strength_range": [
+    0.0,
+    0.05
+  ],
+  "global_blur_sigma_range": [
+    0.3,
+    0.7
+  ],
+  "global_contrast_range": [
+    0.0,
+    0.2
+  ],
+  "global_brightness_range": [
+    0.0,
+    0.2
+  ],
+  "fixed_spots_tuning": {
+    "count_range": [
+      512,
+      1500
+    ],
+    "intensity_min_range": [
+      -0.4,
+      -0.2
+    ],
+    "intensity_max_range": [
+      0.09,
+      0.11
+    ],
+    "radius_min_range": [
+      0,
+      2
+    ],
+    "radius_max_range": [
+      1,
+      3
+    ],
+    "kernel_size_min_range": [
+      0,
+      2
+    ],
+    "kernel_size_max_range": [
+      0,
+      3
+    ],
+    "sigma_range": [
+      0.09,
+      0.11
+    ],
+    "polygon_p_range": [
+      0.09,
+      0.11
+    ],
+    "polygon_vertex_count_min_range": [
+      3,
+      5
+    ],
+    "polygon_vertex_count_max_range": [
+      6,
+      10
+    ],
+    "max_step_range": null
+  },
+  "random_spots_tuning": {
+    "count_range": [
+      512,
+      2000
+    ],
+    "intensity_min_range": [
+      -0.3,
+      -0.2
+    ],
+    "intensity_max_range": [
+      0.09,
+      0.11
+    ],
+    "radius_min_range": [
+      0,
+      2
+    ],
+    "radius_max_range": [
+      1,
+      3
+    ],
+    "kernel_size_min_range": [
+      0,
+      2
+    ],
+    "kernel_size_max_range": [
+      0,
+      5
+    ],
+    "sigma_range": [
+      0.09,
+      0.11
+    ],
+    "polygon_p_range": [
+      0.01,
+      0.9
+    ],
+    "polygon_vertex_count_min_range": [
+      3,
+      5
+    ],
+    "polygon_vertex_count_max_range": [
+      6,
+      10
+    ],
+    "max_step_range": null
+  },
+  "growth_speed": 2.5,
+  "shrink_speed": 5.0,
+  "catastrophe_prob": 0.05,
+  "rescue_prob": 0.05,
+  "max_pause_at_min_frames": 50,
+  "jitter_px": 0.5,
+  "minus_end_velocity": 1.0,
+  "moving_spots": {
+    "count": 0,
+    "intensity_min": 0.005,
+    "intensity_max": 0.08,
+    "radius_min": 1,
+    "radius_max": 3,
+    "kernel_size_min": 0,
+    "kernel_size_max": 2,
+    "sigma": 0.5,
+    "polygon_p": 0.0,
+    "polygon_vertex_count_min": 3,
+    "polygon_vertex_count_max": 7,
+    "max_step": 0
+  },
+  "color_mode": true,
+  "annotation_color_rgb": [
+    1.0,
+    1.0,
+    1.0
+  ],
+  "um_per_pixel": 0.1,
+  "scale_bar_um": 5.0,
+  "show_time": false,
+  "show_scale": false,
+  "generate_mt_mask": true,
+  "generate_seed_mask": false
+}
