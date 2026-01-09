@@ -1,1 +1,284 @@
-# SynthMT
+# SynthMT: Synthetic Data Enables Human-Grade Microtubule Analysis
+
+[![Dataset on HuggingFace](https://img.shields.io/badge/🤗%20Dataset-SynthMT-blue)](https://huggingface.co/datasets/HTW-KI-Werkstatt/SynthMT)
+[![Project Page](https://img.shields.io/badge/Project%20Page-Interactive%20Demos-green)](https://DATEXIS.github.io/SynthMT-project-page)
+[![Paper](https://img.shields.io/badge/bioRxiv-Paper-red)](https://biorxiv.org/coming-soon)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+<p align="center">
+  <img src="examples/images/fig_overview.png" alt="SynthMT Overview" width="100%">
+</p>
+
+**Figure: The SynthMT instance segmentation benchmark evaluates methods on synthetic IRM-like images containing microtubules.**
+(a) Synthetic image mimicking IRM of *in vitro* reconstituted MTs nucleated from fixed seeds (red), reproducing key mechanical and geometrical properties such as filament length and curvature.
+(b) Our pipeline generates accompanying ground-truth instance masks for quantitative evaluation.
+(c) The classical FIESTA algorithm demonstrates typical failure modes: filament fragmentation, incomplete segmentation, and artifacts at intersections.
+(d) SAM3 guided by a simple text prompt ("thin line") produces precise, human-grade segmentation.
+
+## Overview
+
+**SynthMT** is a synthetic benchmark dataset for evaluating instance segmentation methods on *in vitro* microtubule (MT) images. Studying microtubules and their mechanical properties is central to understanding intracellular transport, cell division, and drug action. While important, experts still need to spend many hours manually segmenting these filamentous structures.
+
+This repository provides:
+
+- 🔬 **Synthetic data generation pipeline** that produces realistic MT images with ground-truth instance masks
+- 📊 **SynthMT benchmark dataset** tuned on real IRM microscopy images (no human annotations required)
+- 🧪 **Evaluation framework** for benchmarking segmentation methods in zero-shot and few-shot settings
+- 🎯 **Parameter optimization** using DINOv2 embeddings to align synthetic images with real microscopy data
+
+### Key Findings
+
+Our benchmark evaluates nine fully automated methods for MT analysis. Key results:
+
+- Classical algorithms and current foundation models struggle on *in vitro* MT IRM images that humans perceive as visually simple
+- **SAM3** (text-prompted as "SAM3Text") achieves **near-perfect and sometimes super-human performance** after hyperparameter optimization on only 10 random SynthMT images
+- This demonstrates that fully automated MT segmentation is now feasible when method configuration is effectively guided by synthetic data
+
+## 🔗 Resources
+
+| Resource | Link |
+|----------|------|
+| 📄 Paper | [bioRxiv (coming soon)](https://biorxiv.org/coming-soon) |
+| 🌐 Project Page | [DATEXIS.github.io/SynthMT-project-page](https://DATEXIS.github.io/SynthMT-project-page) – **Interactive demos for all evaluated models** |
+| 🤗 Dataset | [huggingface.co/datasets/HTW-KI-Werkstatt/SynthMT](https://huggingface.co/datasets/HTW-KI-Werkstatt/SynthMT) |
+| 💻 Code | This repository |
+
+## Table of Contents
+
+- [Installation](#installation)
+- [Quick Start](#quick-start)
+- [Example Notebooks](#example-notebooks)
+- [Dataset](#dataset)
+- [Synthetic Data Generation](#synthetic-data-generation)
+- [Configuration](#configuration)
+- [Testing](#testing)
+- [Citation](#citation)
+- [License](#license)
+
+## Installation
+
+We recommend using **[uv](https://github.com/astral-sh/uv)** for fast, reliable Python package management. uv is significantly faster than pip and provides better dependency resolution. It works seamlessly within conda environments.
+
+### Option 1: Using Conda + uv (Recommended)
+
+This is the recommended approach as it provides conda's environment management (required for µSAM) with uv's fast package installation.
+
+```bash
+# Install uv if you haven't already
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Clone the repository
+git clone https://github.com/DATEXIS/SynthMT.git
+cd SynthMT
+
+# Create conda environment from environment.yml
+conda env create -f environment.yml
+conda activate synth_mt
+
+# Use uv for fast package installation within conda
+uv pip install -e .
+uv pip install -r requirements.txt
+```
+
+### Option 2: Using Conda + pip
+
+```bash
+# Clone the repository
+git clone https://github.com/DATEXIS/SynthMT.git
+cd SynthMT
+
+# Create conda environment from environment.yml (includes micro_sam)
+conda env create -f environment.yml
+conda activate synth_mt
+
+# Install the package
+pip install -e .
+```
+
+
+### Apple Silicon Compatibility
+
+- **pip/uv**: If you encounter TensorFlow/Keras conflicts on Apple Silicon, run: `pip uninstall pyarrow`
+
+## Quick Start
+
+### Load the SynthMT Dataset
+
+```python
+from datasets import load_dataset
+
+# Load the dataset from HuggingFace
+ds = load_dataset("HTW-KI-Werkstatt/SynthMT", split="train")
+
+# Access a sample
+sample = ds[0]
+image = sample["image"]  # PIL Image
+masks = sample["mask"]   # List of PIL Images (instance masks)
+```
+
+### Generate Synthetic Data
+
+```python
+from synth_mt.config.synthetic_data import SyntheticDataConfig
+from synth_mt.data_generation.video import generate_video
+
+# Load configuration
+cfg = SyntheticDataConfig.from_json("examples/synthetic_data_example.json")
+
+# Generate video with masks
+generate_video(cfg, base_output_dir="output/")
+```
+
+## Example Notebooks
+
+We provide detailed Jupyter notebooks demonstrating different aspects of the pipeline:
+
+| Notebook | Description |
+|----------|-------------|
+| [`example_load_SynthMT.ipynb`](examples/example_load_SynthMT.ipynb) | **Load and visualize the SynthMT dataset** from HuggingFace. Shows how to decompose samples into images and masks, convert to NumPy arrays, and create overlay visualizations. |
+| [`example_single_frame_generation.ipynb`](examples/example_single_frame_generation.ipynb) | **Detailed walkthrough of the image generation pipeline**. Explains the two-step stochastic process: (1) geometry generation with polylines and stochastic curvature, and (2) image rendering with PSF convolution, noise, and artifacts. |
+| [`example_generate_synthetic_data.ipynb`](examples/example_generate_synthetic_data.ipynb) | **Generate synthetic video data** from a JSON configuration. Includes microtubule dynamics (growing, shrinking, pausing, rescue) and produces images, masks, videos, and preview animations. |
+| [`example_optimize_synthetic_data.ipynb`](examples/example_optimize_synthetic_data.ipynb) | **Tune generation parameters** to match real microscopy images. Uses DINOv2 embeddings and Optuna for hyperparameter optimization without requiring ground-truth annotations. |
+
+## Dataset
+
+The **SynthMT dataset** is hosted on HuggingFace and contains synthetic IRM-like microtubule images with instance segmentation masks.
+
+### Dataset Structure
+
+Each sample contains:
+- `image`: RGB microscopy image (PIL Image)
+- `mask`: List of binary instance masks (one per microtubule)
+
+### Loading the Dataset
+
+```python
+from datasets import load_dataset
+import numpy as np
+
+# Load dataset
+ds = load_dataset("HTW-KI-Werkstatt/SynthMT", split="train")
+
+# Convert to NumPy
+sample = ds[0]
+img_array = np.array(sample["image"].convert("RGB"))  # (H, W, 3)
+mask_stack = np.stack([np.array(m.convert("L")) for m in sample["mask"]], axis=0)  # (N, H, W)
+```
+
+## Synthetic Data Generation
+
+### Parameter Optimization
+
+<p align="center">
+  <img src="examples/images/data_gen_overview.png" alt="Parameter Optimization Pipeline" width="90%">
+</p>
+
+**Figure: Optimizing θ aligns synthetic image distributions with real, annotation-free microscopy data.**
+Real IRM images (left) and synthetic images (center) are embedded using DINOv2. The parametric generator $P_\theta$ (right) creates images by sampling from distributions governing geometric properties (filament count, length, curvature) and imaging characteristics (PSF, noise, artifacts, contrast, distortions), all controlled by θ. An optimization loop iteratively refines θ by maximizing cosine similarity between real and synthetic embeddings, ensuring that synthetic images match the statistical properties and visual characteristics of experimental data.
+
+### Mathematical Framework
+
+The generation pipeline follows a **two-step stochastic process** that produces synthetic images $I \sim P_\theta(I)$ conditioned on parameter set $\theta$:
+
+#### Step 1: Microtubule Geometry
+
+Each MT is modeled as a polyline with $n$ segments. Segment lengths are sampled from a Gaussian distribution, and curvature is introduced through stochastic evolution of bend angles using a Gamma distribution. This yields smoothly curved filaments that replicate real MT morphology.
+
+#### Step 2: Image Rendering
+
+1. **Physical Rendering**: Binary masks are convolved with the Point Spread Function (PSF), scaled by contrast and background intensity
+2. **Artifact Simulation**: Distractor spots (circular, irregular structures) are added
+3. **Noise Addition**: Signal-dependent (Poisson) and signal-independent (Gaussian) noise
+4. **Global Distortions**: Vignetting, blur, and contrast variations
+
+### Command-Line Usage
+
+```bash
+# Generate a single video
+python scripts/generate_synthetic_data.py \
+    -c ./config/synthetic_config.json \
+    -o ./data/generated \
+    --count 1
+
+# Generate 10 videos sequentially
+python scripts/generate_synthetic_data.py \
+    -c ./config/synthetic_config.json \
+    -o ./data/generated \
+    --count 10
+```
+
+### CLI Arguments
+
+| Argument | Shorthand | Required | Description |
+|----------|-----------|----------|-------------|
+| `--config <path>` | `-c` | Yes | Path to the JSON configuration file |
+| `--output-dir <path>` | `-o` | Yes | Output directory for generated data |
+| `--ids <id1> <id2>` | | No | Specific video IDs to generate |
+| `--count <number>` | | No | Number of videos to generate |
+| `--start-id <number>` | | No | Starting ID for sequential generation |
+| `--save-config` | | No | Save configuration copy for reproducibility |
+
+## Configuration
+
+The generation is controlled by a JSON configuration file. Parameters are grouped by their effect:
+
+| Category | Description | Key Parameters |
+|----------|-------------|----------------|
+| **Core Properties** | Video dimensions and duration | `img_size`, `fps`, `num_frames` |
+| **MT Dynamics** | Growth, shrinkage, catastrophe | `growth_speed`, `shrink_speed`, `catastrophe_prob`, `rescue_prob` |
+| **Filament Structure** | Segment length and bending | `max_num_wagons`, `wagon_length_*`, `max_angle` |
+| **Population** | Number and placement of MTs | `num_microtubule`, `microtubule_min_dist` |
+| **Optics & PSF** | Blur and sharpness | `psf_sigma_h`, `psf_sigma_v`, `global_blur_sigma` |
+| **Noise Model** | Poisson and Gaussian noise | `quantum_efficiency`, `gaussian_noise` |
+| **Artifacts** | Background particles | `fixed_spots`, `moving_spots`, `random_spots` |
+
+See [`examples/synthetic_data_example.json`](examples/synthetic_data_example.json) for a complete configuration example.
+
+## Testing
+
+Some tests require access to the Hugging Face Hub. Set the environment variable:
+
+```bash
+export HUGGING_FACE_HUB_TOKEN=your_token_here
+```
+
+Or create a `.env` file:
+```
+HUGGING_FACE_HUB_TOKEN=your_token_here
+```
+
+Run tests:
+```bash
+pytest
+```
+
+## Citation
+
+If you use SynthMT in your research, please cite our paper:
+
+```bibtex
+@article{koddenbrock2025synthmt,
+  title={Synthetic data enables human-grade microtubule analysis with foundation models for segmentation},
+  author={Koddenbrock, Mario and Westerhoff, Justus and Fachet, Dominik and Reber, Simone and Gers, Felix A. and Rodner, Erik},
+  journal={bioRxiv},
+  year={2025},
+  url={https://biorxiv.org/coming-soon}
+}
+```
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a pull request or open an issue.
+
+---
+
+<p align="center">
+  <a href="https://DATEXIS.github.io/SynthMT-project-page">🌐 Project Page</a> •
+  <a href="https://huggingface.co/datasets/HTW-KI-Werkstatt/SynthMT">🤗 Dataset</a> •
+  <a href="https://biorxiv.org/coming-soon">📄 Paper</a>
+</p>
+
