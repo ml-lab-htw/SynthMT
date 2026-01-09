@@ -86,8 +86,8 @@
     "max_step": null
   },
   "color_mode": true,
-  "contrast": 50.0,
-  "brightness": 0.0,
+  "global_contrast": 5.0,
+  "global_brightness": 0.05,
   "annotation_color_rgb": [
     1.0,
     1.0,
