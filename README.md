@@ -261,7 +261,7 @@ If you use SynthMT in your research, please cite our paper:
   title={Synthetic data enables human-grade microtubule analysis with foundation models for segmentation},
   author={Koddenbrock, Mario and Westerhoff, Justus and Fachet, Dominik and Reber, Simone and Gers, Felix A. and Rodner, Erik},
   journal={bioRxiv},
-  year={2025},
+  year={2026},
   url={https://biorxiv.org/coming-soon}
 }
 ```
