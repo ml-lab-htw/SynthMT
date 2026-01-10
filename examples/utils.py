@@ -11,9 +11,19 @@ def create_overlay(image, masks):
     else:
         img_array = np.array(image.convert("RGB"))
 
+    if masks is None:
+        return img_array
+    elif isinstance(masks, list) and len(masks) == 0:
+        return img_array
+    elif isinstance(masks, np.ndarray) and (masks.size == 0 or np.sum(masks) == 0):
+        return img_array
+
     # Masks as stacked numpy array (N, H, W) where N is the number of instances
     if isinstance(masks, np.ndarray):
-        mask_stack = masks
+        if masks.ndim == 2:
+            mask_stack = [masks]
+        else:
+            mask_stack = [masks[i] for i in range(masks.shape[0])]
     else:
         mask_stack = np.stack([np.array(mask.convert("L")) for mask in masks], axis=0)
 
@@ -35,3 +45,26 @@ def create_overlay(image, masks):
         overlay[mask_bool] = (1 - alpha) * overlay[mask_bool] + alpha * colors[i]
 
     return overlay.astype(np.uint8)
+
+
+def sample_to_arrays(sample):
+    """Convert a dataset sample to numpy arrays."""
+    image = np.array(sample["image"].convert("RGB"), dtype=np.uint8)
+    masks = sample["mask"]
+    gt_masks = np.stack([np.array(m.convert("L")) for m in masks], axis=0)
+    return image, gt_masks
+
+
+def get_preprocess_params(model):
+    """Extract preprocessing parameters from the model configuration."""
+    return {
+        "grayscale": model.grayscale,
+        "sharpen_radius": model.sharpen_radius,
+        "smooth_radius": model.smooth_radius,
+        "percentile_min": model.percentile_min,
+        "percentile_max": model.percentile_max,
+        "clip_to_percentiles": model.clip_to_percentiles,
+        "rescale_using_percentiles": model.rescale_using_percentiles,
+        "invert": model.invert,
+        "histogram_normalization": model.histogram_normalization,
+    }
