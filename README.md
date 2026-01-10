@@ -136,9 +136,10 @@ We provide detailed Jupyter notebooks demonstrating different aspects of the pip
 | Notebook | Description |
 |----------|-------------|
 | [`example_load_SynthMT.ipynb`](examples/example_load_SynthMT.ipynb) | **Load and visualize the SynthMT dataset** from HuggingFace. Shows how to decompose samples into images and masks, convert to NumPy arrays, and create overlay visualizations. |
+| [`example_evaluate_model.ipynb`](examples/example_evaluate_model.ipynb) | **Evaluate segmentation models** on SynthMT. Load models via ModelFactory, run predictions, and compute segmentation metrics (SkIoU, F1, AP) and downstream metrics (count, length, curvature distributions). |
 | [`example_single_frame_generation.ipynb`](examples/example_single_frame_generation.ipynb) | **Detailed walkthrough of the image generation pipeline**. Explains the two-step stochastic process: (1) geometry generation with polylines and stochastic curvature, and (2) image rendering with PSF convolution, noise, and artifacts. |
 | [`example_generate_synthetic_data.ipynb`](examples/example_generate_synthetic_data.ipynb) | **Generate synthetic video data** from a JSON configuration. Includes microtubule dynamics (growing, shrinking, pausing, rescue) and produces images, masks, videos, and preview animations. |
-| [`example_optimize_synthetic_data.ipynb`](examples/example_optimize_synthetic_data.ipynb) | **Tune generation parameters** to match real microscopy images. Uses DINOv2 embeddings and Optuna for hyperparameter optimization without requiring ground-truth annotations. |
+| [`example_optimize_synthetic_data.ipynb`](examples/example_optimize_synthetic_data.ipynb) | **Tune generation parameters θ** to match real microscopy images. Uses DINOv2 embeddings and Optuna for optimization without requiring ground-truth annotations. |
 
 ## Dataset
 
@@ -261,7 +262,7 @@ If you use SynthMT in your research, please cite our paper:
   title={Synthetic data enables human-grade microtubule analysis with foundation models for segmentation},
   author={Koddenbrock, Mario and Westerhoff, Justus and Fachet, Dominik and Reber, Simone and Gers, Felix A. and Rodner, Erik},
   journal={bioRxiv},
-  year={2026},
+  year={2026r},
   url={https://biorxiv.org/coming-soon}
 }
 ```
