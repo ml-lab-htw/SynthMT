@@ -1,0 +1,117 @@
+# =============================================================================
+# SynthMT Conda Environment
+# =============================================================================
+# This environment includes µSAM (micro_sam) which requires conda installation.
+# For users who don't need µSAM, pip/uv installation is sufficient.
+#
+# Create: conda env create -f environment.yml
+# Activate: conda activate synth_mt
+# Update: conda env update -f environment.yml --prune
+# =============================================================================
+
+name: synth_mt
+channels:
+  - pytorch
+  - nvidia
+  - conda-forge
+  - defaults
+
+dependencies:
+  # Python version
+  - python=3.11
+
+  # =============================================================================
+  # Conda-only packages (µSAM requires conda)
+  # =============================================================================
+  - micro_sam
+
+  # =============================================================================
+  # Core scientific computing (conda versions for better compatibility)
+  # =============================================================================
+  - numpy>=1.24.0
+  - scipy>=1.10.0
+  - scikit-learn>=1.2.0
+  - scikit-image>=0.20.0
+  - pandas>=2.0.0
+
+  # =============================================================================
+  # PyTorch (will automatically use CUDA if available, CPU otherwise)
+  # =============================================================================
+  - pytorch>=2.0.0
+  - torchvision>=0.15.0
+
+  # =============================================================================
+  # Image processing
+  # =============================================================================
+  - pillow>=9.4.0
+  - imageio>=2.25.0
+  - tifffile>=2023.2.0
+
+  # =============================================================================
+  # Visualization
+  # =============================================================================
+  - matplotlib>=3.7.0
+  - seaborn>=0.12.0
+
+  # =============================================================================
+  # Utilities
+  # =============================================================================
+  - tqdm>=4.65.0
+  - pyyaml>=6.0
+
+  # =============================================================================
+  # Development
+  # =============================================================================
+  - pytest>=7.0.0
+
+  # =============================================================================
+  # pip for remaining packages
+  # =============================================================================
+  - pip
+
+  - pip:
+      # Note: For SAM3 support, run separately:
+      #   pip install -U transformers --pre
+
+      # Transformers and HuggingFace
+      - transformers>=4.47.0
+      - datasets>=2.14.0
+      - huggingface-hub>=0.17.0
+
+      # Image processing (pip versions)
+      - opencv-python>=4.7.0
+      - albumentations>=1.3.0
+
+      # Optimization
+      - optuna>=3.3.0
+
+      # Utilities
+      - python-dotenv>=1.0.0
+      - cachetools>=5.3.0
+
+      # Model dependencies
+      - cellpose>=3.0.0
+      - stardist>=0.8.0
+      - lpips>=0.1.4
+
+      # Install the package itself in editable mode
+      - -e .
+
+# =============================================================================
+# Post-installation notes:
+# =============================================================================
+# 1. For SAM3 support (pre-release transformers):
+#    pip install -U transformers --pre
+#
+# 2. For CellSAM:
+#    pip install cellSAM
+#    Create .env file with: DEEPCELL_ACCESS_TOKEN=your_token
+#
+# 3. For TARDIS:
+#    pip install tardis-em
+#
+# 4. For faster package management within conda, use uv:
+#    pip install uv
+#    uv pip install -U transformers --pre
+# =============================================================================
+
