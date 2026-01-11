@@ -34,13 +34,24 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -e ".[dev]"
+          pip install pytest pytest-cov
+          pip install -e .
           # Install transformers pre-release for SAM3 support
           pip install -U transformers --pre
 
+      - name: Verify installation
+        run: |
+          python -c "import synth_mt; print('synth_mt imported successfully')"
+          pip list | grep synth
+
+      - name: List test files
+        run: |
+          find tests -name "test_*.py" -type f
+
       - name: Run tests with pytest
         run: |
-          pytest tests/ -v --tb=short
+          pytest tests/ -v --tb=short --collect-only || true
+          pytest tests/ -v --tb=short -x
 
   lint:
     runs-on: ubuntu-latest
