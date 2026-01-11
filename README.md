@@ -77,7 +77,9 @@ conda activate synth_mt
 
 # Use uv for fast package installation within conda
 uv pip install -e .
-uv pip install -r requirements.txt
+
+# IMPORTANT: For SAM3 support, install transformers pre-release
+uv pip install -U transformers --pre
 ```
 
 ### Option 2: Using Conda + pip
@@ -93,12 +95,55 @@ conda activate synth_mt
 
 # Install the package
 pip install -e .
+
+# IMPORTANT: For SAM3 support, install transformers pre-release
+pip install -U transformers --pre
 ```
 
+### Option 3: Using pip/uv only (without µSAM)
+
+If you don't need µSAM (MicroSAM), you can use pip or uv directly:
+
+```bash
+# Clone the repository
+git clone https://github.com/DATEXIS/SynthMT.git
+cd SynthMT
+
+# Create a virtual environment
+python -m venv .venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+
+# Install with uv (faster) or pip
+uv pip install -e ".[models]"
+# OR
+pip install -e ".[models]"
+
+# IMPORTANT: For SAM3 support, install transformers pre-release
+pip install -U transformers --pre
+```
+
+### SAM3 Support
+
+SAM3 is a very recent model that requires the pre-release version of transformers:
+
+```bash
+pip install -U transformers --pre
+```
+
+### Optional Model Dependencies
+
+Some models require additional setup:
+
+| Model | Installation | Notes |
+|-------|-------------|-------|
+| **µSAM (MicroSAM)** | `conda install -c conda-forge micro_sam` | Requires conda |
+| **CellSAM** | `pip install cellSAM` | Requires `DEEPCELL_ACCESS_TOKEN` in `.env` |
+| **TARDIS** | `pip install tardis-em` | - |
+| **SAM3** | `pip install -U transformers --pre` | Pre-release transformers |
 
 ### Apple Silicon Compatibility
 
-- **pip/uv**: If you encounter TensorFlow/Keras conflicts on Apple Silicon, run: `pip uninstall pyarrow`
+- **TensorFlow/Keras conflicts**: If you encounter issues on Apple Silicon, run: `pip uninstall pyarrow`
 
 ## Quick Start
 
@@ -140,6 +185,7 @@ We provide detailed Jupyter notebooks demonstrating different aspects of the pip
 | [`example_single_frame_generation.ipynb`](examples/example_single_frame_generation.ipynb) | **Detailed walkthrough of the image generation pipeline**. Explains the two-step stochastic process: (1) geometry generation with polylines and stochastic curvature, and (2) image rendering with PSF convolution, noise, and artifacts. |
 | [`example_generate_synthetic_data.ipynb`](examples/example_generate_synthetic_data.ipynb) | **Generate synthetic video data** from a JSON configuration. Includes microtubule dynamics (growing, shrinking, pausing, rescue) and produces images, masks, videos, and preview animations. |
 | [`example_optimize_synthetic_data.ipynb`](examples/example_optimize_synthetic_data.ipynb) | **Tune generation parameters θ** to match real microscopy images. Uses DINOv2 embeddings and Optuna for optimization without requiring ground-truth annotations. |
+| [`example_full_pipeline.ipynb`](examples/example_full_pipeline.ipynb) | **Complete end-to-end pipeline** for applying SynthMT to your own data. Tune synthetic data, optimize SAM3Text hyperparameters, and compare zero-shot vs HPO performance—all without manual annotations. |
 
 ## Dataset
 
@@ -262,7 +308,7 @@ If you use SynthMT in your research, please cite our paper:
   title={Synthetic data enables human-grade microtubule analysis with foundation models for segmentation},
   author={Koddenbrock, Mario and Westerhoff, Justus and Fachet, Dominik and Reber, Simone and Gers, Felix A. and Rodner, Erik},
   journal={bioRxiv},
-  year={2026r},
+  year={2025},
   url={https://biorxiv.org/coming-soon}
 }
 ```
