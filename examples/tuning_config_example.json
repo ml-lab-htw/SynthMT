@@ -13,7 +13,7 @@
   "output_config_num_png": 10,
   "direction": "maximize",
   "similarity_metric": "cosine",
-  "num_trials": 5,
+  "num_trials": 20,
   "pca_components": 0,
   "load_if_exists": true,
   "img_size": [
