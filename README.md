@@ -102,7 +102,7 @@ pip install -U transformers --pre
 
 ### Option 3: Using pip/uv only (without µSAM)
 
-If you don't need µSAM (MicroSAM), you can use pip or uv directly:
+If you don't need µSAM (µSAM), you can use pip or uv directly:
 
 ```bash
 # Clone the repository
@@ -136,7 +136,7 @@ Some models require additional setup:
 
 | Model | Installation | Notes                                                         |
 |-------|-------------|---------------------------------------------------------------|
-| **µSAM (MicroSAM)** | `conda install -c conda-forge micro_sam` | Requires conda                                                |
+| **µSAM (µSAM)** | `conda install -c conda-forge micro_sam` | Requires conda                                                |
 | **CellSAM** | `pip install cellSAM` | Requires `DEEPCELL_ACCESS_TOKEN` in `.env`                    |
 | **TARDIS** | `pip install tardis-em` | -                                                             |
 | **SAM3** | `pip install -U transformers --pre` | Pre-release transformers, needs granted access on [Huggingface]([https://huggingface.co/facebook/sam3](https://huggingface.co/facebook/sam3)) |
