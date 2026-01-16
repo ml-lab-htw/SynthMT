@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "synth_mt"
-version = "0.1.0"
-description = "SynthMT: Synthetic Data Enables Human-Grade Microtubule Analysis with Foundation Models"
+version = "0.1.1"
+description = "SynthMT: Synthetic Data Enables Human-Grade Microtubule Analysis with Foundation Models for Segmentation"
 readme = "README.md"
 license = {text = "MIT"}
 requires-python = ">=3.11"
