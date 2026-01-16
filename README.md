@@ -1,4 +1,4 @@
-# SynthMT: Synthetic Data Enables Human-Grade Microtubule Analysis
+# SynthMT: Synthetic Data Enables Human-Grade Microtubule Analysis with foundation models for segmentation
 
 [![Dataset on HuggingFace](https://img.shields.io/badge/🤗%20Dataset-SynthMT-blue)](https://huggingface.co/datasets/HTW-KI-Werkstatt/SynthMT)
 [![Project Page](https://img.shields.io/badge/Project%20Page-Interactive%20Demos-green)](https://DATEXIS.github.io/SynthMT-project-page)
@@ -22,23 +22,22 @@
 This repository provides:
 
 - 🔬 **Synthetic data generation pipeline** that produces realistic MT images with ground-truth instance masks
+- 🎯 **Parameter optimization** using DINOv2 embeddings to align synthetic images with real microscopy data
 - 📊 **SynthMT benchmark dataset** tuned on real IRM microscopy images (no human annotations required)
 - 🧪 **Evaluation framework** for benchmarking segmentation methods in zero-shot and few-shot settings
-- 🎯 **Parameter optimization** using DINOv2 embeddings to align synthetic images with real microscopy data
 
 ### Key Findings
 
 Our benchmark evaluates nine fully automated methods for MT analysis. Key results:
 
-- Classical algorithms and current foundation models struggle on *in vitro* MT IRM images that humans perceive as visually simple
-- **SAM3** (text-prompted as "SAM3Text") achieves **near-perfect and sometimes super-human performance** after hyperparameter optimization on only 10 random SynthMT images
-- This demonstrates that fully automated MT segmentation is now feasible when method configuration is effectively guided by synthetic data
+- Classical algorithms and most of the current foundation models struggle on *in vitro* MT IRM images that humans perceive as visually simple
+- **SAM3** (text-prompted as "SAM3Text") achieves **human-grade performance** after hyperparameter optimization on only 10 random SynthMT images
 
 ## 🔗 Resources
 
 | Resource | Link |
 |----------|------|
-| 📄 Paper | [bioRxiv (coming soon)](https://biorxiv.org/coming-soon) |
+| 📄 Paper | [bioRxiv](https://www.biorxiv.org/content/10.64898/2026.01.09.698597v2) |
 | 🌐 Project Page | [DATEXIS.github.io/SynthMT-project-page](https://DATEXIS.github.io/SynthMT-project-page) – **Interactive demos for all evaluated models** |
 | 🤗 Dataset | [huggingface.co/datasets/HTW-KI-Werkstatt/SynthMT](https://huggingface.co/datasets/HTW-KI-Werkstatt/SynthMT) |
 | 💻 Code | This repository |
@@ -58,6 +57,7 @@ Our benchmark evaluates nine fully automated methods for MT analysis. Key result
 ## Installation
 
 We recommend using **[uv](https://github.com/astral-sh/uv)** for fast, reliable Python package management. uv is significantly faster than pip and provides better dependency resolution. It works seamlessly within conda environments.
+As python version, we recommend using Python 3.11.
 
 ### Option 1: Using Conda + uv (Recommended)
 
@@ -134,12 +134,12 @@ pip install -U transformers --pre
 
 Some models require additional setup:
 
-| Model | Installation | Notes |
-|-------|-------------|-------|
-| **µSAM (MicroSAM)** | `conda install -c conda-forge micro_sam` | Requires conda |
-| **CellSAM** | `pip install cellSAM` | Requires `DEEPCELL_ACCESS_TOKEN` in `.env` |
-| **TARDIS** | `pip install tardis-em` | - |
-| **SAM3** | `pip install -U transformers --pre` | Pre-release transformers |
+| Model | Installation | Notes                                                         |
+|-------|-------------|---------------------------------------------------------------|
+| **µSAM (MicroSAM)** | `conda install -c conda-forge micro_sam` | Requires conda                                                |
+| **CellSAM** | `pip install cellSAM` | Requires `DEEPCELL_ACCESS_TOKEN` in `.env`                    |
+| **TARDIS** | `pip install tardis-em` | -                                                             |
+| **SAM3** | `pip install -U transformers --pre` | Pre-release transformers, needs granted access on [Huggingface]([https://huggingface.co/facebook/sam3](https://huggingface.co/facebook/sam3)) |
 
 ### Apple Silicon Compatibility
 
@@ -304,12 +304,16 @@ pytest
 If you use SynthMT in your research, please cite our paper:
 
 ```bibtex
-@article{koddenbrock2025synthmt,
-  title={Synthetic data enables human-grade microtubule analysis with foundation models for segmentation},
-  author={Koddenbrock, Mario and Westerhoff, Justus and Fachet, Dominik and Reber, Simone and Gers, Felix A. and Rodner, Erik},
-  journal={bioRxiv},
-  year={2025},
-  url={https://biorxiv.org/coming-soon}
+@article{koddenbrock2026synthetic,
+    author = {Koddenbrock, Mario and Westerhoff, Justus and Fachet, Dominik and Reber, Simone and Gers, Felix A. and Rodner, Erik},
+    title = {Synthetic data enables human-grade microtubule analysis with foundation models for segmentation},
+    elocation-id = {2026.01.09.698597},
+    year = {2026},
+    doi = {10.64898/2026.01.09.698597},
+    publisher = {Cold Spring Harbor Laboratory},
+    URL = {https://www.biorxiv.org/content/early/2026/01/12/2026.01.09.698597},
+    eprint = {https://www.biorxiv.org/content/early/2026/01/12/2026.01.09.698597.full.pdf},
+    journal = {bioRxiv}
 }
 ```
 
@@ -323,9 +327,17 @@ Contributions are welcome! Please feel free to submit a pull request or open an 
 
 ---
 
+# 🙏 Acknowledgements
+
+Our work is funded by the Deutsche Forschungsgemeinschaft (DFG, German Research Foundation) Project-ID 528483508 - FIP 12. We would like to thank Dominik Fachet and Gil Henkin from the Reber lab for providing data, and also thank the further study participants Moritz Becker, Nathaniel Boateng, and Miguel Aguilar. The Reber lab thanks staff at the Advanced Medical Bioimaging Core Facility (Charité, Berlin) for imaging support and the Max Planck Society for funding. Furthermore, we thank Kristian Hildebrand and Chaitanya A. Athale (IISER Pune, India) and his lab for helpful discussions
+
+
+---
+
 <p align="center">
   <a href="https://DATEXIS.github.io/SynthMT-project-page">🌐 Project Page</a> •
   <a href="https://huggingface.co/datasets/HTW-KI-Werkstatt/SynthMT">🤗 Dataset</a> •
   <a href="https://biorxiv.org/coming-soon">📄 Paper</a>
 </p>
+
 
