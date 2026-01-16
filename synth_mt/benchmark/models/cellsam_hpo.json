@@ -1,0 +1,13 @@
+{
+  "model_name": "CellSAM",
+  "grayscale": true,
+  "sharpen_radius": 1.1462844457997454,
+  "smooth_radius": 5.11498342033302,
+  "percentile_min": 2.6559703144676288,
+  "percentile_max": 95.33259506028342,
+  "clip_to_percentiles": false,
+  "rescale_using_percentiles": false,
+  "invert": true,
+  "histogram_normalization": false,
+  "bbox_threshold": 0.2782837038258444
+}

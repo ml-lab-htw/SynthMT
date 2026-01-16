@@ -1,0 +1,14 @@
+{
+  "model_name": "SAM2",
+  "grayscale": false,
+  "sharpen_radius": 0,
+  "smooth_radius": 0,
+  "percentile_min": 0,
+  "percentile_max": 100,
+  "clip_to_percentiles": false,
+  "rescale_using_percentiles": false,
+  "invert": false,
+  "histogram_normalization": false,
+  "pred_iou_thresh": 0.8,
+  "stability_score_thresh": 0.95
+}

@@ -1,0 +1,15 @@
+{
+  "model_name": "StarDist",
+  "grayscale": true,
+  "sharpen_radius": 8.115930741953932,
+  "smooth_radius": 18.065261721912655,
+  "percentile_min": 0.1773873481490394,
+  "percentile_max": 96.71140118705762,
+  "clip_to_percentiles": false,
+  "rescale_using_percentiles": true,
+  "invert": false,
+  "histogram_normalization": false,
+  "pretrained": "2D_paper_dsb2018",
+  "prob_thresh": 0.6051386255527874,
+  "nms_thresh": 0.031237050586434677
+}

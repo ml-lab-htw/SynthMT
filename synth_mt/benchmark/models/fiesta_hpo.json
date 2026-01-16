@@ -1,0 +1,20 @@
+{
+  "model_name": "FIESTA",
+  "grayscale": true,
+  "sharpen_radius": 0.17953425836036518,
+  "smooth_radius": 2.2537506145995194,
+  "percentile_min": 4.24951244475223,
+  "percentile_max": 96.10833351966117,
+  "clip_to_percentiles": false,
+  "rescale_using_percentiles": false,
+  "invert": false,
+  "histogram_normalization": false,
+  "background_filter": false,
+  "binary_image_processing": "average",
+  "dynamicfil": false,
+  "focus_correction": false,
+  "fwhm_estimate": 4.132603916167644,
+  "height_threshold": 1.3742730592865993,
+  "min_cod": 0.08639417509866186,
+  "reduce_fit_box": 2.6115272380941303
+}

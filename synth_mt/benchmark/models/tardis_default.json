@@ -1,0 +1,14 @@
+{
+  "model_name": "tardis_mt_tirf",
+  "grayscale": true,
+  "sharpen_radius": 0,
+  "smooth_radius": 0,
+  "percentile_min": 0,
+  "percentile_max": 100,
+  "clip_to_percentiles": false,
+  "rescale_using_percentiles": false,
+  "invert": false,
+  "histogram_normalization": false,
+  "cnn_threshold": 0.1,
+  "dist_threshold": 0.5
+}

@@ -1,0 +1,17 @@
+{
+  "model_name": "microSAM",
+  "grayscale": false,
+  "sharpen_radius": 0,
+  "smooth_radius": 0,
+  "percentile_min": 0,
+  "percentile_max": 100,
+  "clip_to_percentiles": false,
+  "rescale_using_percentiles": false,
+  "invert": false,
+  "histogram_normalization": false,
+  "center_distance_threshold": 0.5,
+  "boundary_distance_threshold": 0.5,
+  "foreground_threshold": 0.5,
+  "foreground_smoothing": 1.0,
+  "distance_smoothing": 1.6
+}

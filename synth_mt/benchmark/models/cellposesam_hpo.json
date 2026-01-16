@@ -1,0 +1,15 @@
+{
+  "model_name": "Cellpose-SAM",
+  "grayscale": true,
+  "sharpen_radius": 1.4542666093583856,
+  "smooth_radius": 19.79179006976966,
+  "percentile_min": 2.008779890024262,
+  "percentile_max": 99.42081064089238,
+  "clip_to_percentiles": false,
+  "rescale_using_percentiles": true,
+  "invert": true,
+  "histogram_normalization": false,
+  "cellprob_threshold": 0.3724210029026884,
+  "diameter": 37,
+  "flow_threshold": 0.832387064208597
+}

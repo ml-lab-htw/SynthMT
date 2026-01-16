@@ -1,0 +1,17 @@
+{
+  "model_name": "microSAM",
+  "grayscale": false,
+  "sharpen_radius": 3.0717298260531365,
+  "smooth_radius": 1.8046429103980977,
+  "percentile_min": 0.6317808797187802,
+  "percentile_max": 96.27052805343814,
+  "clip_to_percentiles": true,
+  "rescale_using_percentiles": false,
+  "invert": true,
+  "histogram_normalization": false,
+  "boundary_distance_threshold": 0.8910709345566972,
+  "center_distance_threshold": 0.5227885308752991,
+  "distance_smoothing": 1.9510455247177214,
+  "foreground_smoothing": 1.1112282546507293,
+  "foreground_threshold": 0.7275083811217098
+}

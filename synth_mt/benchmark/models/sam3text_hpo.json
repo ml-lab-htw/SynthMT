@@ -1,0 +1,15 @@
+{
+  "model_name": "SAM3Text",
+  "grayscale": true,
+  "sharpen_radius": 0.38717865927737405,
+  "smooth_radius": 3.410555347410367,
+  "percentile_min": 3.506993161284297,
+  "percentile_max": 99.46537030219284,
+  "clip_to_percentiles": true,
+  "rescale_using_percentiles": true,
+  "invert": false,
+  "histogram_normalization": false,
+  "text_prompt_option": 0,
+  "threshold": 0.4018846604226014,
+  "mask_threshold": 0.44189937830348586
+}

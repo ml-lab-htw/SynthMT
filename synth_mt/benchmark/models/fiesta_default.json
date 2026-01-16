@@ -1,0 +1,20 @@
+{
+  "model_name": "FIESTA",
+  "grayscale": true,
+  "sharpen_radius": 0,
+  "smooth_radius": 0,
+  "percentile_min": 0,
+  "percentile_max": 100.0,
+  "clip_to_percentiles": false,
+  "rescale_using_percentiles": false,
+  "invert": true,
+  "histogram_normalization": false,
+  "background_filter": false,
+  "binary_image_processing": "none",
+  "dynamicfil": false,
+  "focus_correction": false,
+  "fwhm_estimate": 3.0,
+  "height_threshold": 2.0,
+  "min_cod": 0.5,
+  "reduce_fit_box": 1.0
+}

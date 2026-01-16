@@ -1,0 +1,14 @@
+{
+  "model_name": "SAM2",
+  "grayscale": false,
+  "sharpen_radius": 1.4775753824011375,
+  "smooth_radius": 0.49613136465580526,
+  "percentile_min": 2.5813401850834254,
+  "percentile_max": 97.86568748207067,
+  "clip_to_percentiles": false,
+  "rescale_using_percentiles": true,
+  "invert": false,
+  "histogram_normalization": false,
+  "pred_iou_thresh": 0.2601139781045985,
+  "stability_score_thresh": 0.6968013285811494
+}
