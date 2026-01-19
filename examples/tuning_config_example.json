@@ -4,7 +4,7 @@
   "hf_cache_dir": null,
   "reference_video_path": "",
   "reference_images_dir": "example_images",
-  "num_compare_frames": 3,
+  "num_compare_frames": 10,
   "temp_dir": ".temp",
   "output_config_folder": "config/optimal_configs",
   "output_config_num_best": 5,
