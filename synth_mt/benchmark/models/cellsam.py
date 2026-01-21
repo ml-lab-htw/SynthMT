@@ -14,6 +14,7 @@ try:
 except ImportError as e:
     logger.warning(f"Failed to import cellSAM: {e}")
 
+
 class CellSAM(BaseModel):
     """
     CellSAM model. Note: Token (to access and download the model) has to be set in .env file:
@@ -21,7 +22,7 @@ class CellSAM(BaseModel):
 
     Note: Sadly, there is no way to make CellSAM nicely use the `self._save_dir` parameter, as it
     offers no way to dynamically change its models cache dir (but will always use ~/.deepcell).
-    When using it on a cluster, we circumvent this by using a symbolik link (see `run_benchmark.yaml`).
+    When using it on a cluster, we circumvent this by using a symbolik link.
     """
 
     def __init__(
@@ -79,7 +80,6 @@ class CellSAM(BaseModel):
         #     iou_depth=0,
         #     iou_threshold=0,
         # )
-
 
         try:
 
