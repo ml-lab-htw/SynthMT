@@ -128,6 +128,16 @@ SAM3 is a very recent model that requires the pre-release version of transformer
 pip install -U transformers --pre
 ```
 
+### CellSAM Support
+
+CellSAM required small adaptations to run within this pipeline. While our upstream pull request is pending, please install and use our fork of CellSAM:
+
+```bash
+pip install git+https://github.com/mario-koddenbrock/cellSAM.git
+```
+
+The fork contains the compatibility fixes; once the upstream PR is merged you can switch back to the official package.
+
 ### Running FIESTA (MATLAB)
 
 If you want to run FIESTA in script mode we modified the original project — please use our fork (clone or browse): [ml-lab-htw/FIESTA on GitHub](https://github.com/ml-lab-htw/FIESTA.git).
@@ -170,13 +180,13 @@ Notes & troubleshooting
 
 Some models require additional setup:
 
-| Model               | Installation                                                                                                         | Notes                                                         |
-|---------------------|----------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------|
-| **microSAM (µSAM)** | `conda install -c conda-forge micro_sam`                                                                             | Requires conda                                                |
-| **CellSAM**         | `pip install cellSAM`                                                                                                | Requires `DEEPCELL_ACCESS_TOKEN` in `.env`                    |
-| **TARDIS**          | `pip install tardis-em`                                                                                              | -                                                             |
-| **SAM3**            | `pip install -U transformers --pre`                                                                                  | Pre-release transformers, needs granted access on [Huggingface](https://huggingface.co/facebook/sam3) |
-| **FIESTA (MATLAB)** | `git clone https://github.com/ml-lab-htw/FIESTA.git /path/to/FIESTA`<br>`cd /Applications/MATLAB_R2025b.app/extern/engines/python && python3 -m pip install .` | MATLAB application — requires MATLAB (tested with **R2025b**) and the MATLAB Engine API for Python: https://www.mathworks.com/help/matlab/matlab-engine-for-python.html. Clone into the SynthMT project root as `./fiesta` (i.e., `SynthMT/fiesta`) or ensure the working directory includes the FIESTA folder so `synth_mt/benchmark/models/fiesta.py` can find `./fiesta`. |
+| Model               | Installation                                                       | Notes                                                         |
+|---------------------|--------------------------------------------------------------------|---------------------------------------------------------------|
+| **microSAM (µSAM)** | `conda install -c conda-forge micro_sam`                           | Requires conda                                                |
+| **CellSAM**         | `pip install git+https://github.com/mario-koddenbrock/cellSAM.git` | Requires `DEEPCELL_ACCESS_TOKEN` in `.env. Adaptations pending upstream — use the fork above until the pull request is merged.`                    |
+| **TARDIS**          | `pip install tardis-em`                                            | -                                                             |
+| **SAM3**            | `pip install -U transformers --pre`                                | Pre-release transformers, needs granted access on [Huggingface](https://huggingface.co/facebook/sam3) |
+| **FIESTA (MATLAB)** | `git clone https://github.com/ml-lab-htw/FIESTA.git ./fiesta`      | MATLAB app (tested with **R2025b**). Install the [MATLAB Engine API for Python](https://www.mathworks.com/help/matlab/matlab-engine-for-python.html). After cloning, install the engine (example): `cd /Applications/MATLAB_R2025b.app/extern/engines/python && python3 -m pip install .`. Clone into the SynthMT root as `./fiesta` so `synth_mt/benchmark/models/fiesta.py` can find it. |
 
 ### Apple Silicon Compatibility
 
