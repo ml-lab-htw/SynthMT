@@ -23,7 +23,7 @@ dependencies:
   # =============================================================================
   # Conda-only packages (µSAM requires conda)
   # =============================================================================
-  - micro_sam
+  - micro_sam=1.6.2
 
   # =============================================================================
   # Core scientific computing (conda versions for better compatibility)
