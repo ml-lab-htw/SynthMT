@@ -1,13 +1,21 @@
 import logging
-from typing import Tuple, Any
+from typing import Tuple, Any, Literal, Iterable
 
 import cv2
 import matplotlib.pyplot as plt
 import numpy as np
 
+from examples.utils import anchor_points_to_instance_mask_stack
+
 logger = logging.getLogger(__name__)
 
 def create_overlay(image, masks):
+
+    is_anchor_point = isinstance(masks, list) and len(masks) > 0 and masks[0].shape[1] == 2
+
+    if is_anchor_point:
+        plotting_aps = [[ap_coords[0], ap_coords[-1]] for ap_coords in masks]
+        masks = anchor_points_to_instance_mask_stack(masks, image.shape[:2])
 
     # Image as numpy array (H, W, 3)
     if isinstance(image, np.ndarray):
@@ -43,12 +51,94 @@ def create_overlay(image, masks):
     colors = np.array(colors) * 255  # Convert from [0,1] to [0,255]
 
     # Apply each mask with its color
-    alpha = 0.75
+    if is_anchor_point:
+        alpha = 0.65
+    else:
+        alpha = 0.75
+
     for i, mask in enumerate(mask_stack):
         mask_bool = mask > 0
         overlay[mask_bool] = (1 - alpha) * overlay[mask_bool] + alpha * colors[i]
 
+    if is_anchor_point:
+        for ap_coords, col in zip(plotting_aps, colors):
+            draw_points(
+                overlay,
+                points=[ap_coords[0], ap_coords[-1]],
+                radius=5,
+                color=tuple(col),
+            )
+
     return overlay.astype(np.uint8)
+
+
+def draw_points(
+    image: np.ndarray,
+    points: Iterable[Tuple[float, float]],
+    radius: int,
+    color: Tuple[int, int, int],
+    alpha: float = 0.9,
+    marker: Literal["circle", "x"] = "circle",
+    thickness: int = 3,
+    inplace: bool = True,
+):
+    """
+    Draw points as circles or X markers with optional alpha blending.
+
+    Parameters
+    ----------
+    image : np.ndarray
+        Input image (H, W, 3), BGR.
+    points : iterable of (x, y)
+        Point coordinates (float or int).
+    radius : int
+        Circle radius or half-size of X.
+    color: (B, G, R)
+        Marker color.
+    alpha : float, optional
+        Transparency in [0, 1]. 1.0 = opaque.
+    marker: {"circle", "x"}, optional
+        Marker type to draw.
+    thickness : int, optional
+        Line thickness for X marker.
+    inplace : bool, optionally
+        Modify image in-place.
+
+    Returns
+    -------
+    np.ndarray
+        Image with drawn markers.
+    """
+
+    if not inplace:
+        image = image.copy()
+
+    h, w = image.shape[:2]
+
+    def _draw(img):
+        for x_f, y_f in points:
+            x = int(np.clip(round(x_f), 0, w - 1))
+            y = int(np.clip(round(y_f), 0, h - 1))
+
+            if marker == "circle":
+                cv2.circle(img, (x, y), radius, color, -1)
+
+            elif marker == "x":
+                r = radius
+                cv2.line(img, (x - r, y - r), (x + r, y + r), color, thickness)
+                cv2.line(img, (x - r, y + r), (x + r, y - r), color, thickness)
+
+            else:
+                raise ValueError(f"Unknown marker type: {marker}")
+
+    if alpha >= 1.0:
+        _draw(image)
+        return image
+
+    overlay = image.copy()
+    _draw(overlay)
+    cv2.addWeighted(overlay, alpha, image, 1 - alpha, 0, image)
+    return image
 
 
 def show_frame(frame: np.ndarray, title: str = "", figsize=(6, 4)) -> None:
