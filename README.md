@@ -100,7 +100,7 @@ pip install -U transformers --pre
 
 ### Option 3: Using pip/uv only (without µSAM)
 
-If you don't need µSAM (µSAM), you can use pip or uv directly:
+If you don't need µSAM (microSAM), you can use pip or uv directly:
 
 ```bash
 # Clone the repository
@@ -379,4 +379,4 @@ Our work is funded by the Deutsche Forschungsgemeinschaft (DFG, German Research 
 
 ---
 
-[Project Page](https://DATEXIS.github.io/SynthMT-project-page) • [Dataset](https://huggingface.co/datasets/HTW-KI-Werkstatt/SynthMT) • [Paper](https://biorxiv.org/coming-soon)
+[Project Page](https://DATEXIS.github.io/SynthMT-project-page) • [Dataset](https://huggingface.co/datasets/HTW-KI-Werkstatt/SynthMT) • [Paper]([https://biorxiv.org/coming-soon](https://www.biorxiv.org/content/10.64898/2026.01.09.698597v2))

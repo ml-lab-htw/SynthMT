@@ -27,7 +27,7 @@ class TARDIS(AnchorPointModel):
 
     Note: Sadly, there is no way to make TARDIS nicely use the `self._save_dir` parameter, as it
     offers no way to dynamically change its models cache dir (but will always use ~/.tardis_em).
-    When using it on a cluster, we circumvent this by using a symbolik link (see `run_benchmark.yaml`).
+    When using it on a cluster, we circumvent this by using a symbolik link.
     """
 
     def load_model(self):
@@ -119,7 +119,6 @@ class TARDIS(AnchorPointModel):
         # Use a simple hash of the image bytes for lookup
         # maybe not needed, to be figured out
         return hash(image.tobytes())
-
 
     def predict_batch(self, images: list[np.ndarray]) -> list[list[ndarray]]:
         time_predict = self.load_and_predict_all(images)
