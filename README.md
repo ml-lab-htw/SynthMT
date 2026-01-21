@@ -5,9 +5,7 @@
 [![Paper](https://img.shields.io/badge/bioRxiv-Paper-red)](https://biorxiv.org/coming-soon)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-<p align="center">
-  <img src="examples/images/fig_overview.png" alt="SynthMT Overview" width="100%">
-</p>
+![SynthMT Overview](examples/images/fig_overview.png)
 
 **Figure: The SynthMT instance segmentation benchmark evaluates methods on synthetic IRM-like images containing microtubules.**
 (a) Synthetic image mimicking IRM of *in vitro* reconstituted MTs nucleated from fixed seeds (red), reproducing key mechanical and geometrical properties such as filament length and curvature.
@@ -130,16 +128,55 @@ SAM3 is a very recent model that requires the pre-release version of transformer
 pip install -U transformers --pre
 ```
 
+### Running FIESTA (MATLAB)
+
+If you want to run FIESTA in script mode we modified the original project — please use our fork (clone or browse): [ml-lab-htw/FIESTA on GitHub](https://github.com/ml-lab-htw/FIESTA.git).
+
+FIESTA is a MATLAB application. From Python you call it using the MATLAB Engine API for Python; see the official MathWorks guide: [MATLAB Engine API for Python](https://www.mathworks.com/help/matlab/matlab-engine-for-python.html).
+
+We developed and tested the integration with **MATLAB R2025b**.
+
+Important: the Python integration expects the FIESTA code to be available at `./fiesta` (relative to the working directory of the SynthMT process). The simplest approach is to clone the fork into the SynthMT project root so the folder appears as `SynthMT/fiesta` (for example: `git clone https://github.com/ml-lab-htw/FIESTA.git /path/to/SynthMT/fiesta`). If you place it elsewhere, update paths or the working directory accordingly.
+
+Quick start
+
+1. Clone the forked FIESTA repository (replace `/path/to/SynthMT/fiesta` with the target path on your machine):
+
+```bash
+git clone https://github.com/ml-lab-htw/FIESTA.git /path/to/SynthMT/fiesta
+```
+
+2. Install the MATLAB Engine for Python on the machine that has MATLAB installed (run once). Use the Python interpreter/environment you will run your code from. For MATLAB R2025b the engine sources are under the app bundle:
+
+```bash
+cd /Applications/MATLAB_R2025b.app/extern/engines/python
+python3 -m pip install .
+```
+
+3. Verify the engine was installed into the same Python environment you will use (for example, your `conda` environment `synth_mt`):
+
+```bash
+# activate the environment you plan to run from, then try importing the engine interactively
+conda activate synth_mt
+python -c "import matlab.engine; print('MATLAB engine available')"
+```
+Notes & troubleshooting
+
+- The MATLAB Engine must be installed into the same Python interpreter/environment you use to run your scripts. If you use `conda activate synth_mt`, install the engine while that environment is active.
+- If your MATLAB version or install location differs from `R2025b`, adapt the `cd` path accordingly.
+- For details about available MATLAB entry points and how we adapted FIESTA for script mode, see the forked repository: https://github.com/ml-lab-htw/FIESTA.git
+
 ### Optional Model Dependencies
 
 Some models require additional setup:
 
-| Model | Installation | Notes                                                         |
-|-------|-------------|---------------------------------------------------------------|
-| **µSAM (µSAM)** | `conda install -c conda-forge micro_sam` | Requires conda                                                |
-| **CellSAM** | `pip install cellSAM` | Requires `DEEPCELL_ACCESS_TOKEN` in `.env`                    |
-| **TARDIS** | `pip install tardis-em` | -                                                             |
-| **SAM3** | `pip install -U transformers --pre` | Pre-release transformers, needs granted access on [Huggingface]([https://huggingface.co/facebook/sam3](https://huggingface.co/facebook/sam3)) |
+| Model               | Installation                                                                                                         | Notes                                                         |
+|---------------------|----------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------|
+| **microSAM (µSAM)** | `conda install -c conda-forge micro_sam`                                                                             | Requires conda                                                |
+| **CellSAM**         | `pip install cellSAM`                                                                                                | Requires `DEEPCELL_ACCESS_TOKEN` in `.env`                    |
+| **TARDIS**          | `pip install tardis-em`                                                                                              | -                                                             |
+| **SAM3**            | `pip install -U transformers --pre`                                                                                  | Pre-release transformers, needs granted access on [Huggingface](https://huggingface.co/facebook/sam3) |
+| **FIESTA (MATLAB)** | `git clone https://github.com/ml-lab-htw/FIESTA.git /path/to/FIESTA`<br>`cd /Applications/MATLAB_R2025b.app/extern/engines/python && python3 -m pip install .` | MATLAB application — requires MATLAB (tested with **R2025b**) and the MATLAB Engine API for Python: https://www.mathworks.com/help/matlab/matlab-engine-for-python.html. Clone into the SynthMT project root as `./fiesta` (i.e., `SynthMT/fiesta`) or ensure the working directory includes the FIESTA folder so `synth_mt/benchmark/models/fiesta.py` can find `./fiesta`. |
 
 ### Apple Silicon Compatibility
 
@@ -216,9 +253,7 @@ mask_stack = np.stack([np.array(m.convert("L")) for m in sample["mask"]], axis=0
 
 ### Parameter Optimization
 
-<p align="center">
-  <img src="examples/images/data_gen_overview.png" alt="Parameter Optimization Pipeline" width="90%">
-</p>
+![Parameter Optimization Pipeline](examples/images/data_gen_overview.png)
 
 **Figure: Optimizing θ aligns synthetic image distributions with real, annotation-free microscopy data.**
 Real IRM images (left) and synthetic images (center) are embedded using DINOv2. The parametric generator $P_\theta$ (right) creates images by sampling from distributions governing geometric properties (filament count, length, curvature) and imaging characteristics (PSF, noise, artifacts, contrast, distortions), all controlled by θ. An optimization loop iteratively refines θ by maximizing cosine similarity between real and synthetic embeddings, ensuring that synthetic images match the statistical properties and visual characteristics of experimental data.
@@ -334,10 +369,4 @@ Our work is funded by the Deutsche Forschungsgemeinschaft (DFG, German Research 
 
 ---
 
-<p align="center">
-  <a href="https://DATEXIS.github.io/SynthMT-project-page">🌐 Project Page</a> •
-  <a href="https://huggingface.co/datasets/HTW-KI-Werkstatt/SynthMT">🤗 Dataset</a> •
-  <a href="https://biorxiv.org/coming-soon">📄 Paper</a>
-</p>
-
-
+[Project Page](https://DATEXIS.github.io/SynthMT-project-page) • [Dataset](https://huggingface.co/datasets/HTW-KI-Werkstatt/SynthMT) • [Paper](https://biorxiv.org/coming-soon)
