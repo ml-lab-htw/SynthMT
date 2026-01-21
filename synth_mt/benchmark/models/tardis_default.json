@@ -10,5 +10,6 @@
   "invert": false,
   "histogram_normalization": false,
   "cnn_threshold": 0.1,
-  "dist_threshold": 0.5
+  "dist_threshold": 0.5,
+  "work_dir": "./temp/.tardis_work_dir"
 }
