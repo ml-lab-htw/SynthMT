@@ -91,8 +91,10 @@ dependencies:
 
       # Model dependencies
       - cellpose>=3.0.0
-      - stardist>=0.8.0
+      - stardist==0.9.1
       - lpips>=0.1.4
+      # TARDIS (pinned)
+      - tardis-em==0.3.10
 
       # Install the package itself in editable mode
       - -e .
