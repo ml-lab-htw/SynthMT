@@ -49,7 +49,7 @@ cachetools>=5.3.0
 cellpose>=3.0.0
 
 # CellSAM (requires DEEPCELL_ACCESS_TOKEN in .env)
-# cellSAM  # Install separately: pip install cellSAM
+# cellSAM  # Install separately: pip install git+https://github.com/mario-koddenbrock/cellSAM.git
 
 # StarDist (requires tensorflow)
 stardist==0.9.1
@@ -74,11 +74,11 @@ tox>=4.0.0
 #     pip install -U transformers --pre
 #
 # - For µSAM (MicroSAM), install via conda:
-#     conda install -c conda-forge micro_sam
+#     conda install -c conda-forge micro_sam=1.6.2
 #
 # - For CellSAM, you need a DEEPCELL_ACCESS_TOKEN:
-#     pip install cellSAM
+#     pip install git+https://github.com/mario-koddenbrock/cellSAM.git
 #     Create .env file with: DEEPCELL_ACCESS_TOKEN=your_token
 #
 # - For TARDIS:
-#     pip install tardis-em
+#     pip install tardis-em==0.3.10

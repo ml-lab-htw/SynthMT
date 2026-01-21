@@ -106,13 +106,10 @@ dependencies:
 #    pip install -U transformers --pre
 #
 # 2. For CellSAM:
-#    pip install cellSAM
+#    pip install git+https://github.com/mario-koddenbrock/cellSAM.git
 #    Create .env file with: DEEPCELL_ACCESS_TOKEN=your_token
 #
-# 3. For TARDIS:
-#    pip install tardis-em
-#
-# 4. For faster package management within conda, use uv:
+# 3. For faster package management within conda, use uv:
 #    pip install uv
 #    uv pip install -U transformers --pre
 # =============================================================================

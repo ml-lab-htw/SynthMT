@@ -1,15 +1,55 @@
 import logging
-from typing import Tuple, Any, Literal, Iterable
+from typing import Tuple, Any, Literal, Iterable, List
 
 import cv2
 import matplotlib.pyplot as plt
 import numpy as np
 
-from examples.utils import anchor_points_to_instance_mask_stack
-
 logger = logging.getLogger(__name__)
 
-def create_overlay(image, masks):
+
+def anchor_points_to_instance_mask_stack(ordered_coords_list, shape, thickness=2):
+    """
+    Convert a list of ordered anchor points to a stack of binary masks.
+    Each mask is created by drawing a spline through the anchor points.
+    """
+
+    mask_stack = []
+    for ordered_coords in ordered_coords_list:
+        if len(ordered_coords) == 0:
+            # No anchor points, skip this instance
+            continue
+        mask = np.zeros(shape, dtype=np.uint8)
+        if len(ordered_coords) == 1:
+            # Draw a single point if only one anchor
+            pt = np.round(ordered_coords[0]).astype(int)
+            mask[int(pt[1]), int(pt[0])] = 1
+            mask_stack.append(mask)
+            continue
+        try:
+            tck, u = splprep(ordered_coords.T, s=0)
+            u_fine = np.linspace(0, 1, 200)
+            spline_points = np.array(splev(u_fine, tck)).T
+        except Exception:
+            spline_points = ordered_coords
+
+        # Draw the anchor points onto the mask
+        for pt in np.round(ordered_coords).astype(int):
+            x = np.clip(pt[0], 0, shape[1] - 1)
+            y = np.clip(pt[1], 0, shape[0] - 1)
+            mask[y, x] = 1
+
+        # Draw the spline points as a polyline
+        pts = np.round(spline_points).astype(int)
+        for i in range(len(pts) - 1):
+            p1 = tuple(pts[i])
+            p2 = tuple(pts[i + 1])
+            cv2.line(mask, p1, p2, 1, thickness)
+        mask_stack.append(mask)
+    return np.array(mask_stack)
+
+
+def create_overlay(image: np.array, masks: List[np.array]):
 
     is_anchor_point = isinstance(masks, list) and len(masks) > 0 and masks[0].shape[1] == 2
 
@@ -193,5 +233,3 @@ def get_colormap(
     }
     logger.debug("Colormap generated successfully.")
     return color_map
-
-

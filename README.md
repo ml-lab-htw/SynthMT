@@ -33,12 +33,12 @@ Our benchmark evaluates nine fully automated methods for MT analysis. Key result
 
 ## 🔗 Resources
 
-| Resource | Link |
-|----------|------|
-| 📄 Paper | [bioRxiv](https://www.biorxiv.org/content/10.64898/2026.01.09.698597v2) |
+| Resource       | Link                                                                                                                                      |
+| -------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| 📄 Paper        | [bioRxiv](https://www.biorxiv.org/content/10.64898/2026.01.09.698597v2)                                                                   |
 | 🌐 Project Page | [DATEXIS.github.io/SynthMT-project-page](https://DATEXIS.github.io/SynthMT-project-page) – **Interactive demos for all evaluated models** |
-| 🤗 Dataset | [huggingface.co/datasets/HTW-KI-Werkstatt/SynthMT](https://huggingface.co/datasets/HTW-KI-Werkstatt/SynthMT) |
-| 💻 Code | This repository |
+| 🤗 Dataset      | [huggingface.co/datasets/HTW-KI-Werkstatt/SynthMT](https://huggingface.co/datasets/HTW-KI-Werkstatt/SynthMT)                              |
+| 💻 Code         | This repository                                                                                                                           |
 
 ## Table of Contents
 
@@ -98,9 +98,9 @@ pip install -e .
 pip install -U transformers --pre
 ```
 
-### Option 3: Using pip/uv only (without µSAM)
+### Option 3: Using pip/uv only (without microSAM)
 
-If you don't need µSAM (microSAM), you can use pip or uv directly:
+If you don't need microSAM (µSAM), you can use pip or uv directly:
 
 ```bash
 # Clone the repository
@@ -122,7 +122,7 @@ pip install -U transformers --pre
 
 ### SAM3 Support
 
-SAM3 is a very recent model that requires the pre-release version of transformers:
+SAM3 is a very recent model that requires the pre-release version of *transformers:*
 
 ```bash
 pip install -U transformers --pre
@@ -130,7 +130,7 @@ pip install -U transformers --pre
 
 ### CellSAM Support
 
-CellSAM required small adaptations to run within this pipeline. While our upstream pull request is pending, please install and use our fork of CellSAM:
+CellSAM required small adaptations/fixes to run within this pipeline. While our upstream pull request is pending, please install and use our fork of CellSAM:
 
 ```bash
 pip install git+https://github.com/mario-koddenbrock/cellSAM.git
@@ -140,15 +140,15 @@ The fork contains the compatibility fixes; once the upstream PR is merged you ca
 
 ### Running FIESTA (MATLAB)
 
-If you want to run FIESTA in script mode we modified the original project — please use our fork (clone or browse): [ml-lab-htw/FIESTA on GitHub](https://github.com/ml-lab-htw/FIESTA.git).
+If you want to run FIESTA in script mode, please use our fork (clone or browse): [ml-lab-htw/FIESTA on GitHub](https://github.com/ml-lab-htw/FIESTA.git) in which we modified the original project.
 
 FIESTA is a MATLAB application. From Python you call it using the MATLAB Engine API for Python; see the official MathWorks guide: [MATLAB Engine API for Python](https://www.mathworks.com/help/matlab/matlab-engine-for-python.html).
 
 We developed and tested the integration with **MATLAB R2025b**.
 
-Important: the Python integration expects the FIESTA code to be available at `./fiesta` (relative to the working directory of the SynthMT process). The simplest approach is to clone the fork into the SynthMT project root so the folder appears as `SynthMT/fiesta` (for example: `git clone https://github.com/ml-lab-htw/FIESTA.git /path/to/SynthMT/fiesta`). If you place it elsewhere, update paths or the working directory accordingly.
+**Important**: the Python integration expects the FIESTA code to be available at `./fiesta` (relative to the working directory of the SynthMT process). The simplest approach is to clone the fork into the SynthMT project root so the folder appears as `SynthMT/fiesta` (for example: `git clone https://github.com/ml-lab-htw/FIESTA.git /path/to/SynthMT/fiesta`). If you place it elsewhere, update paths or the working directory accordingly.
 
-Quick start
+#### Quick start
 
 1. Clone the forked FIESTA repository (replace `/path/to/SynthMT/fiesta` with the target path on your machine):
 
@@ -170,7 +170,8 @@ python3 -m pip install .
 conda activate synth_mt
 python -c "import matlab.engine; print('MATLAB engine available')"
 ```
-Notes & troubleshooting
+
+#### Notes & troubleshooting
 
 - The MATLAB Engine must be installed into the same Python interpreter/environment you use to run your scripts. If you use `conda activate synth_mt`, install the engine while that environment is active.
 - If your MATLAB version or install location differs from `R2025b`, adapt the `cd` path accordingly.
@@ -180,12 +181,12 @@ Notes & troubleshooting
 
 Some models require additional setup:
 
-| Model               | Installation                                                       | Notes                                                         |
-|---------------------|--------------------------------------------------------------------|---------------------------------------------------------------|
-| **microSAM (µSAM)** | `conda install -c conda-forge micro_sam`                           | Requires conda                                                |
-| **CellSAM**         | `pip install git+https://github.com/mario-koddenbrock/cellSAM.git` | Requires `DEEPCELL_ACCESS_TOKEN` in `.env. Adaptations pending upstream — use the fork above until the pull request is merged.`                    |
-| **TARDIS**          | `pip install tardis-em==0.3.10`                                     | TARDIS pinned to **0.3.10** (recommended)                     |
-| **SAM3**            | `pip install -U transformers --pre`                                | Pre-release transformers, needs granted access on [Huggingface](https://huggingface.co/facebook/sam3) |
+| Model               | Installation                                                       | Notes                                                                                                                                                                                                                                                                                                                                                                                      |
+| ------------------- | ------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **microSAM (µSAM)** | `conda install -c conda-forge micro_sam`                           | Requires conda                                                                                                                                                                                                                                                                                                                                                                             |
+| **CellSAM**         | `pip install git+https://github.com/mario-koddenbrock/cellSAM.git` | Requires `DEEPCELL_ACCESS_TOKEN` in `.env. Adaptations pending upstream — use the fork above until the pull request is merged.`                                                                                                                                                                                                                                                            |
+| **TARDIS**          | `pip install tardis-em==0.3.10`                                    | TARDIS pinned to **0.3.10** (recommended)                                                                                                                                                                                                                                                                                                                                                  |
+| **SAM3**            | `pip install -U transformers --pre`                                | Pre-release transformers, needs granted access on [Huggingface](https://huggingface.co/facebook/sam3)                                                                                                                                                                                                                                                                                      |
 | **FIESTA (MATLAB)** | `git clone https://github.com/ml-lab-htw/FIESTA.git ./fiesta`      | MATLAB app (tested with **R2025b**). Install the [MATLAB Engine API for Python](https://www.mathworks.com/help/matlab/matlab-engine-for-python.html). After cloning, install the engine (example): `cd /Applications/MATLAB_R2025b.app/extern/engines/python && python3 -m pip install .`. Clone into the SynthMT root as `./fiesta` so `synth_mt/benchmark/models/fiesta.py` can find it. |
 
 ### Apple Silicon Compatibility
@@ -225,14 +226,14 @@ generate_video(cfg, base_output_dir="output/")
 
 We provide detailed Jupyter notebooks demonstrating different aspects of the pipeline:
 
-| Notebook | Description |
-|----------|-------------|
-| [`example_load_SynthMT.ipynb`](examples/example_load_SynthMT.ipynb) | **Load and visualize the SynthMT dataset** from HuggingFace. Shows how to decompose samples into images and masks, convert to NumPy arrays, and create overlay visualizations. |
-| [`example_evaluate_model.ipynb`](examples/example_evaluate_model.ipynb) | **Evaluate segmentation models** on SynthMT. Load models via ModelFactory, run predictions, and compute segmentation metrics (SkIoU, F1, AP) and downstream metrics (count, length, curvature distributions). |
+| Notebook                                                                                  | Description                                                                                                                                                                                                                               |
+| ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [`example_load_SynthMT.ipynb`](examples/example_load_SynthMT.ipynb)                       | **Load and visualize the SynthMT dataset** from HuggingFace. Shows how to decompose samples into images and masks, convert to NumPy arrays, and create overlay visualizations.                                                            |
+| [`example_evaluate_model.ipynb`](examples/example_evaluate_model.ipynb)                   | **Evaluate segmentation models** on SynthMT. Load models via ModelFactory, run predictions, and compute segmentation metrics (SkIoU, F1, AP) and downstream metrics (count, length, curvature distributions).                             |
 | [`example_single_frame_generation.ipynb`](examples/example_single_frame_generation.ipynb) | **Detailed walkthrough of the image generation pipeline**. Explains the two-step stochastic process: (1) geometry generation with polylines and stochastic curvature, and (2) image rendering with PSF convolution, noise, and artifacts. |
-| [`example_generate_synthetic_data.ipynb`](examples/example_generate_synthetic_data.ipynb) | **Generate synthetic video data** from a JSON configuration. Includes microtubule dynamics (growing, shrinking, pausing, rescue) and produces images, masks, videos, and preview animations. |
-| [`example_optimize_synthetic_data.ipynb`](examples/example_optimize_synthetic_data.ipynb) | **Tune generation parameters θ** to match real microscopy images. Uses DINOv2 embeddings and Optuna for optimization without requiring ground-truth annotations. |
-| [`example_full_pipeline.ipynb`](examples/example_full_pipeline.ipynb) | **Complete end-to-end pipeline** for applying SynthMT to your own data. Tune synthetic data, optimize SAM3Text hyperparameters, and compare zero-shot vs HPO performance—all without manual annotations. |
+| [`example_generate_synthetic_data.ipynb`](examples/example_generate_synthetic_data.ipynb) | **Generate synthetic video data** from a JSON configuration. Includes microtubule dynamics (growing, shrinking, pausing, rescue) and produces images, masks, videos, and preview animations.                                              |
+| [`example_optimize_synthetic_data.ipynb`](examples/example_optimize_synthetic_data.ipynb) | **Tune generation parameters θ** to match real microscopy images. Uses DINOv2 embeddings and Optuna for optimization without requiring ground-truth annotations.                                                                          |
+| [`example_full_pipeline.ipynb`](examples/example_full_pipeline.ipynb)                     | **Complete end-to-end pipeline** for applying SynthMT to your own data. Tune synthetic data, optimize SAM3Text hyperparameters, and compare zero-shot vs HPO performance—all without manual annotations.                                  |
 
 ## Dataset
 
@@ -301,28 +302,28 @@ python scripts/generate_synthetic_data.py \
 
 ### CLI Arguments
 
-| Argument | Shorthand | Required | Description |
-|----------|-----------|----------|-------------|
-| `--config <path>` | `-c` | Yes | Path to the JSON configuration file |
-| `--output-dir <path>` | `-o` | Yes | Output directory for generated data |
-| `--ids <id1> <id2>` | | No | Specific video IDs to generate |
-| `--count <number>` | | No | Number of videos to generate |
-| `--start-id <number>` | | No | Starting ID for sequential generation |
-| `--save-config` | | No | Save configuration copy for reproducibility |
+| Argument              | Shorthand | Required | Description                                 |
+| --------------------- | --------- | -------- | ------------------------------------------- |
+| `--config <path>`     | `-c`      | Yes      | Path to the JSON configuration file         |
+| `--output-dir <path>` | `-o`      | Yes      | Output directory for generated data         |
+| `--ids <id1> <id2>`   |           | No       | Specific video IDs to generate              |
+| `--count <number>`    |           | No       | Number of videos to generate                |
+| `--start-id <number>` |           | No       | Starting ID for sequential generation       |
+| `--save-config`       |           | No       | Save configuration copy for reproducibility |
 
 ## Configuration
 
 The generation is controlled by a JSON configuration file. Parameters are grouped by their effect:
 
-| Category | Description | Key Parameters |
-|----------|-------------|----------------|
-| **Core Properties** | Video dimensions and duration | `img_size`, `fps`, `num_frames` |
-| **MT Dynamics** | Growth, shrinkage, catastrophe | `growth_speed`, `shrink_speed`, `catastrophe_prob`, `rescue_prob` |
-| **Filament Structure** | Segment length and bending | `max_num_wagons`, `wagon_length_*`, `max_angle` |
-| **Population** | Number and placement of MTs | `num_microtubule`, `microtubule_min_dist` |
-| **Optics & PSF** | Blur and sharpness | `psf_sigma_h`, `psf_sigma_v`, `global_blur_sigma` |
-| **Noise Model** | Poisson and Gaussian noise | `quantum_efficiency`, `gaussian_noise` |
-| **Artifacts** | Background particles | `fixed_spots`, `moving_spots`, `random_spots` |
+| Category               | Description                    | Key Parameters                                                    |
+| ---------------------- | ------------------------------ | ----------------------------------------------------------------- |
+| **Core Properties**    | Video dimensions and duration  | `img_size`, `fps`, `num_frames`                                   |
+| **MT Dynamics**        | Growth, shrinkage, catastrophe | `growth_speed`, `shrink_speed`, `catastrophe_prob`, `rescue_prob` |
+| **Filament Structure** | Segment length and bending     | `max_num_wagons`, `wagon_length_*`, `max_angle`                   |
+| **Population**         | Number and placement of MTs    | `num_microtubule`, `microtubule_min_dist`                         |
+| **Optics & PSF**       | Blur and sharpness             | `psf_sigma_h`, `psf_sigma_v`, `global_blur_sigma`                 |
+| **Noise Model**        | Poisson and Gaussian noise     | `quantum_efficiency`, `gaussian_noise`                            |
+| **Artifacts**          | Background particles           | `fixed_spots`, `moving_spots`, `random_spots`                     |
 
 See [`examples/synthetic_data_example.json`](examples/synthetic_data_example.json) for a complete configuration example.
 
