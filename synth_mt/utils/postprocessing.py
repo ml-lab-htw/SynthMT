@@ -66,6 +66,7 @@ def filter_instance_masks(
     min_length=0,
     max_length=np.inf,
     border_margin=-1,
+    **kwargs,
 ):
     """Filter instance masks based on area, length, and border conditions."""
 
@@ -113,6 +114,7 @@ def filter_anchor_points(
     max_length=np.inf,
     image_resolution=None,
     border_margin=-1,
+    **kwargs,
 ):
     """Filter anchor points based on length and border conditions."""
 
