@@ -81,7 +81,8 @@ dependencies = [
 # All models (except µSAM which requires conda)
 models = [
     "cellpose>=3.0.0",
-    "stardist>=0.8.0",
+    "stardist==0.9.1",
+    "tardis-em==0.3.10",
     "lpips>=0.1.4",
 ]
 
