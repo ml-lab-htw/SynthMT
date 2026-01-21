@@ -21,11 +21,11 @@
     512
   ],
   "fps": 5,
-  "base_wagon_length_min_range": [
+  "base_segment_length_min_range": [
     5.0,
     15.0
   ],
-  "base_wagon_length_max_range": [
+  "base_segment_length_max_range": [
     30.0,
     60.0
   ],
@@ -37,7 +37,7 @@
     120,
     200
   ],
-  "tail_wagon_length_range": [
+  "tail_segment_length_range": [
     5.0,
     15.0
   ],

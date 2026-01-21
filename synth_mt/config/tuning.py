@@ -49,11 +49,11 @@ class TuningConfig(BaseConfig):
     # =========================================================================
 
     # ─── Microtubule geometry & bending ranges ────────────────────────
-    base_wagon_length_min_range: Tuple[float, float] = (2.0, 20.0)
-    base_wagon_length_max_range: Tuple[float, float] = (30.0, 80.0)
+    base_segment_length_min_range: Tuple[float, float] = (2.0, 20.0)
+    base_segment_length_max_range: Tuple[float, float] = (30.0, 80.0)
     microtubule_length_min_range: Tuple[int, int] = (50, 150)
     microtubule_length_max_range: Tuple[int, int] = (100, 250)
-    tail_wagon_length_range: Tuple[float, float] = (5.0, 20.0)
+    tail_segment_length_range: Tuple[float, float] = (5.0, 20.0)
     bending_angle_gamma_shape_range: Tuple[float, float] = (0.5, 2.0)
     bending_angle_gamma_scale_range: Tuple[float, float] = (0.01, 0.05)
     max_angle_sign_changes_range: Tuple[int, int] = (0, 3)
@@ -169,11 +169,11 @@ class TuningConfig(BaseConfig):
         suggested_params = {}
 
         # --- Microtubule Geometry (with dependent ranges) ---
-        suggested_params["base_wagon_length_min"] = trial.suggest_float(
-            "base_wagon_length_min", *self.base_wagon_length_min_range
+        suggested_params["base_segment_length_min"] = trial.suggest_float(
+            "base_segment_length_min", *self.base_segment_length_min_range
         )
-        suggested_params["base_wagon_length_max"] = trial.suggest_float(
-            "base_wagon_length_max",
+        suggested_params["base_segment_length_max"] = trial.suggest_float(
+            "base_segment_length_max",
             max(suggested_params["base_wagon_length_min"], self.base_wagon_length_max_range[0]),
             self.base_wagon_length_max_range[1],
         )

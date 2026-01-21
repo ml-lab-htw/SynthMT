@@ -37,13 +37,13 @@ class SyntheticDataConfig(BaseConfig):
     rescue_prob_std: float = 0.0
 
     # --- Microtubule Geometry ---
-    base_wagon_length_min: float = 5.0
-    base_wagon_length_max: float = 50.0
+    base_segment_length_min: float = 5.0
+    base_segment_length_max: float = 50.0
     microtubule_length_min: int = 100
     microtubule_length_max: int = 200
 
     # Bending is applied to the dynamic "tail" part of the microtubule.
-    tail_wagon_length: float = (
+    tail_segment_length: float = (
         10.0  # Visual segments for drawing the tail. Does not affect growth speed.
     )
     # The bending angles for the microtubule's visual segments are drawn from a Gamma distribution,
@@ -60,7 +60,7 @@ class SyntheticDataConfig(BaseConfig):
     )
     max_angle_sign_changes: int = 1  # 0 for C-shape, 1 for S-shape, etc.
     prob_to_flip_bend: float = (
-        0.1  # Probability to use an available sign change when adding new visual wagons
+        0.1  # Probability to use an available sign change when adding new visual segments
     )
 
     # --- Minus-end (opposite direction) dynamics ---
@@ -118,8 +118,8 @@ class SyntheticDataConfig(BaseConfig):
         """Validates configuration parameters."""
         logger.debug(f"Starting validation for SyntheticDataConfig '{self.id}'...")
         errors = []
-        if self.base_wagon_length_min > self.base_wagon_length_max:
-            errors.append("base_wagon_length_min cannot be greater than base_wagon_length_max.")
+        if self.base_segment_length_min > self.base_segment_length_max:
+            errors.append("base_segment_length_min cannot be greater than base_segment_length_max.")
         if self.microtubule_length_min > self.microtubule_length_max:
             errors.append("microtubule_length_min cannot be greater than microtubule_length_max.")
         if self.psf_sigma_h <= 0 or self.psf_sigma_v <= 0:

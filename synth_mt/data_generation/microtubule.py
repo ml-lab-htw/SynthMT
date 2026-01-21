@@ -18,7 +18,7 @@ class MicrotubuleState(Enum):
 
 
 @dataclass
-class Wagon:
+class Segment:
     """Represents a single, persistent segment of a microtubule."""
 
     length: float
@@ -41,8 +41,8 @@ class Microtubule:
         self.pause_frames_at_min = 0
 
         # Initialize the persistent base segment (the "seed")
-        base_length = np.random.uniform(cfg.base_wagon_length_min, cfg.base_wagon_length_max)
-        self.wagons: List[Wagon] = [Wagon(length=base_length, is_seed=True)]
+        base_length = np.random.uniform(cfg.base_segment_length_min, cfg.base_segment_length_max)
+        self.segments: List[Segment] = [Segment(length=base_length, is_seed=True)]
 
         # Bending state must be initialized before adding the tail
         self.bend_angle_sign_changes_left = cfg.max_angle_sign_changes
@@ -77,8 +77,8 @@ class Microtubule:
 
     @property
     def total_length(self) -> float:
-        """Calculates the total length of all wagons."""
-        return sum(w.length for w in self.wagons)
+        """Calculates the total length of all segments."""
+        return sum(w.length for w in self.segments)
 
     def step(self, cfg: SyntheticDataConfig):
         """
@@ -96,7 +96,7 @@ class Microtubule:
                 logger.debug(f"MT {self.instance_id}: Catastrophe -> SHRINKING")
 
         elif self.state == MicrotubuleState.SHRINKING:
-            if self.total_length <= self.wagons[0].length:  # At min length (only seed left)
+            if self.total_length <= self.segments[0].length:  # At min length (only seed left)
                 self.state = MicrotubuleState.PAUSED
                 self.pause_frames_at_min = 0
                 logger.debug(f"MT {self.instance_id}: Min length reached -> PAUSED")
@@ -132,49 +132,49 @@ class Microtubule:
             self.minus_end_length += direction * change
 
     def _add_tail_length(self, length_to_add: float, cfg: SyntheticDataConfig):
-        """Adds length to the dynamic tail, creating new visual wagons if needed."""
-        if not self.wagons:
+        """Adds length to the dynamic tail, creating new visual segments if needed."""
+        if not self.segments:
             return
-        last_wagon = self.wagons[-1]
+        last_segment = self.segments[-1]
 
-        if last_wagon.is_seed:
+        if last_segment.is_seed:
             # Start a new dynamic segment
-            new_wagon = Wagon(
+            new_segment = Segment(
                 length=length_to_add, relative_bend_angle=self._get_next_bend_angle(cfg)
             )
-            self.wagons.append(new_wagon)
+            self.segments.append(new_segment)
         else:
             # Add to the last dynamic segment
-            last_wagon.length += length_to_add
+            last_segment.length += length_to_add
 
         # Subdivide the last segment if it's too long
         while (
-            len(self.wagons) > 1
-            and not self.wagons[-1].is_seed
-            and self.wagons[-1].length > cfg.tail_wagon_length
+            len(self.segments) > 1
+            and not self.segments[-1].is_seed
+            and self.segments[-1].length > cfg.tail_segment_length
         ):
-            last = self.wagons[-1]
-            excess_length = last.length - cfg.tail_wagon_length
-            last.length = cfg.tail_wagon_length
-            new_wagon = Wagon(
+            last = self.segments[-1]
+            excess_length = last.length - cfg.tail_segment_length
+            last.length = cfg.tail_segment_length
+            new_segment = Segment(
                 length=excess_length, relative_bend_angle=self._get_next_bend_angle(cfg)
             )
-            self.wagons.append(new_wagon)
+            self.segments.append(new_segment)
 
     def _remove_tail_length(self, length_to_remove: float) -> bool:
         """Removes length from the dynamic tail. Returns True if tail is gone."""
-        while length_to_remove > 0 and len(self.wagons) > 1:
-            last_wagon = self.wagons[-1]
-            if last_wagon.is_seed:
+        while length_to_remove > 0 and len(self.segments) > 1:
+            last_segment = self.segments[-1]
+            if last_segment.is_seed:
                 break  # Should not happen if len > 1
 
-            if length_to_remove >= last_wagon.length:
-                length_to_remove -= last_wagon.length
-                self.wagons.pop()
+            if length_to_remove >= last_segment.length:
+                length_to_remove -= last_segment.length
+                self.segments.pop()
             else:
-                last_wagon.length -= length_to_remove
+                last_segment.length -= length_to_remove
                 length_to_remove = 0
-        return len(self.wagons) == 1
+        return len(self.segments) == 1
 
     def _get_next_bend_angle(self, cfg: SyntheticDataConfig) -> float:
         """Determines the bend angle for a new segment based on a gamma distribution."""
@@ -197,7 +197,7 @@ class Microtubule:
         seed_mask: Optional[np.ndarray] = None,
     ) -> List[dict]:
         logger.debug(
-            f"MT {self.instance_id}: Drawing for {self.frame_idx}. Total wagons: {len(self.wagons)}."
+            f"MT {self.instance_id}: Drawing for {self.frame_idx}. Total segments: {len(self.segments)}."
         )
 
         abs_angle = self.base_orientation
@@ -231,7 +231,7 @@ class Microtubule:
             )
 
         # --- Draw Main Body (Plus-End and Seed) ---
-        for idx, w in enumerate(self.wagons):
+        for idx, w in enumerate(self.segments):
             start_pos = abs_pos.copy()
             abs_angle += w.relative_bend_angle
             vec = np.array([np.cos(abs_angle), np.sin(abs_angle)])
@@ -244,7 +244,7 @@ class Microtubule:
             base_contrast = cfg.tubulus_contrast
             tip_brightness = (
                 cfg.tip_brightness_factor
-                if self.state == MicrotubuleState.GROWING and idx == len(self.wagons) - 1
+                if self.state == MicrotubuleState.GROWING and idx == len(self.segments) - 1
                 else 1.0
             )
             if w.is_seed:

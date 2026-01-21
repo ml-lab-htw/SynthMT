@@ -46,13 +46,13 @@ def test_create_config_from_trial():
         "scale_bar_um": 20,
 
         # Geometry & Shape
-        "base_wagon_length_min": 15.0, "base_wagon_length_max": 45.0,
-        "max_num_wagons": 10,
+        "base_segment_length_min": 15.0, "base_segment_length_max": 45.0,
+        "max_num_segments": 10,
         "max_angle": 0.2,
         "max_angle_sign_changes": 1,
         "prob_to_flip_bend": 0.05,
-        "min_wagon_length_min": 5, "min_wagon_length_max": 15,
-        "max_wagon_length_min": 15, "max_wagon_length_max": 30,
+        "min_segment_length_min": 5, "min_segment_length_max": 15,
+        "max_segment_length_min": 15, "max_segment_length_max": 30,
         "num_microtubule": 25, "microtubule_seed_min_dist": 30, "margin": 10,
 
         # Rendering & Realism
@@ -84,7 +84,7 @@ def test_create_config_from_trial():
         "random_spots_polygon_p": 0.3, "random_spots_polygon_vertex_count_min": 3, "random_spots_polygon_vertex_count_max": 7,
 
         "max_pause_at_min_frames": 5,
-        "tail_wagon_length": 10.0,
+        "tail_segment_length": 10.0,
         "red_channel_noise_std": 0.01,
     }
     mock_trial = MockOptunaTrial(trial_params)
