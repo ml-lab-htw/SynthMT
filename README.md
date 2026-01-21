@@ -319,7 +319,7 @@ The generation is controlled by a JSON configuration file. Parameters are groupe
 | ---------------------- | ------------------------------ | ----------------------------------------------------------------- |
 | **Core Properties**    | Video dimensions and duration  | `img_size`, `fps`, `num_frames`                                   |
 | **MT Dynamics**        | Growth, shrinkage, catastrophe | `growth_speed`, `shrink_speed`, `catastrophe_prob`, `rescue_prob` |
-| **Filament Structure** | Segment length and bending     | `max_num_wagons`, `wagon_length_*`, `max_angle`                   |
+| **Filament Structure** | Segment length and bending     | `max_sum_segments`, `segment_length_*`, `max_angle`               |
 | **Population**         | Number and placement of MTs    | `num_microtubule`, `microtubule_min_dist`                         |
 | **Optics & PSF**       | Blur and sharpness             | `psf_sigma_h`, `psf_sigma_v`, `global_blur_sigma`                 |
 | **Noise Model**        | Poisson and Gaussian noise     | `quantum_efficiency`, `gaussian_noise`                            |

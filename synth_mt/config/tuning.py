@@ -174,14 +174,15 @@ class TuningConfig(BaseConfig):
         )
         suggested_params["base_segment_length_max"] = trial.suggest_float(
             "base_segment_length_max",
-            max(suggested_params["base_wagon_length_min"], self.base_wagon_length_max_range[0]),
-            self.base_wagon_length_max_range[1],
+            max(suggested_params["base_segment_length_min"], self.base_segment_length_max_range[0]),
+            self.base_segment_length_max_range[1],
         )
 
         suggested_params["microtubule_length_min"] = trial.suggest_int(
             "microtubule_length_min",
             max(
-                int(suggested_params["base_wagon_length_max"]), self.microtubule_length_min_range[0]
+                int(suggested_params["base_segment_length_max"]),
+                self.microtubule_length_min_range[0],
             ),
             self.microtubule_length_min_range[1],
         )
@@ -192,8 +193,8 @@ class TuningConfig(BaseConfig):
         )
 
         # --- Bending & Minus-End ---
-        suggested_params["tail_wagon_length"] = trial.suggest_float(
-            "tail_wagon_length", *self.tail_wagon_length_range
+        suggested_params["tail_segment_length"] = trial.suggest_float(
+            "tail_segment_length", *self.tail_segment_length_range
         )
         suggested_params["bending_angle_gamma_shape"] = trial.suggest_float(
             "bending_angle_gamma_shape", *self.bending_angle_gamma_shape_range
@@ -264,8 +265,14 @@ class TuningConfig(BaseConfig):
         )
 
         # --- Spots (Static only) ---
-        fixed_spots_cfg = self.fixed_spots_tuning.from_trial(trial, "fixed_spots", )
-        random_spots_cfg = self.random_spots_tuning.from_trial(trial, "random_spots", )
+        fixed_spots_cfg = self.fixed_spots_tuning.from_trial(
+            trial,
+            "fixed_spots",
+        )
+        random_spots_cfg = self.random_spots_tuning.from_trial(
+            trial,
+            "random_spots",
+        )
 
         # --- Build the final config object ---
         synth_cfg = SyntheticDataConfig(
