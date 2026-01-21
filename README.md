@@ -68,7 +68,7 @@ This is the recommended approach as it provides conda's environment management (
 curl -LsSf https://astral.sh/uv/install.sh | sh
 
 # Clone the repository
-git clone https://github.com/DATEXIS/SynthMT.git
+git clone https://github.com/ml-lab-htw/SynthMT.git
 cd SynthMT
 
 # Create conda environment from environment.yml
@@ -86,7 +86,7 @@ uv pip install -U transformers --pre
 
 ```bash
 # Clone the repository
-git clone https://github.com/DATEXIS/SynthMT.git
+git clone https://github.com/ml-lab-htw/SynthMT.git
 cd SynthMT
 
 # Create conda environment from environment.yml (includes micro_sam)
@@ -106,7 +106,7 @@ If you don't need µSAM (µSAM), you can use pip or uv directly:
 
 ```bash
 # Clone the repository
-git clone https://github.com/DATEXIS/SynthMT.git
+git clone https://github.com/ml-lab-htw/SynthMT.git
 cd SynthMT
 
 # Create a virtual environment
