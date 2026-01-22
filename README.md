@@ -57,7 +57,7 @@ Our benchmark evaluates nine fully automated methods for MT analysis. Key result
 We recommend using **[uv](https://github.com/astral-sh/uv)** for fast, reliable Python package management. uv is significantly faster than pip and provides better dependency resolution. It works seamlessly within conda environments.
 As python version, we recommend using Python 3.11.
 
-### Option 1: Using Conda (Recommended)
+### Using Conda (Recommended)
 
 This is the recommended approach as it provides conda's environment management (required for µSAM).
 
@@ -72,28 +72,6 @@ conda activate synth_mt
 
 # IMPORTANT: For SAM3 support, install transformers pre-release
 uv pip install -U transformers --pre
-```
-
-### Option 2: Using pip only (without microSAM)
-
-If you don't need microSAM (µSAM), you can use pip or uv directly:
-
-```bash
-# Clone the repository
-git clone https://github.com/ml-lab-htw/SynthMT.git
-cd SynthMT
-
-# Create a virtual environment
-python -m venv .venv
-source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-
-# Install with uv (faster) or pip
-uv pip install -e ".[models]"
-# OR
-pip install -e ".[models]"
-
-# IMPORTANT: For SAM3 support, install transformers pre-release
-pip install -U transformers --pre
 ```
 
 ### Detailed optional model installation & notes
