@@ -144,7 +144,7 @@ DEEPCELL_ACCESS_TOKEN=your_token_here
 
 Once the upstream PR is merged you can switch back to the official package.
 
-### Running FIESTA (MATLAB)
+### FIESTA (MATLAB) Support
 
 We provide a small fork of the original FIESTA project with modifications that enable running FIESTA in script mode from Python. Use our fork: https://github.com/ml-lab-htw/FIESTA.git.
 
