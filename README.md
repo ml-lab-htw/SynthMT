@@ -57,6 +57,9 @@ Our benchmark evaluates nine fully automated methods for MT analysis. Key result
 We recommend using **[uv](https://github.com/astral-sh/uv)** for fast, reliable Python package management. uv is significantly faster than pip and provides better dependency resolution. It works seamlessly within conda environments.
 As python version, we recommend using Python 3.11.
 
+<details>
+<summary><strong>Environment setup (choose one)</strong> — Conda+uv (recommended), Conda+pip, or pip-only</summary>
+
 ### Option 1: Using Conda + uv (Recommended)
 
 This is the recommended approach as it provides conda's environment management (required for µSAM) with uv's fast package installation.
@@ -98,7 +101,7 @@ pip install -e .
 pip install -U transformers --pre
 ```
 
-### Option 3: Using pip/uv only (without microSAM)
+### Option 3: Using pip/uv only
 
 If you don't need microSAM (µSAM), you can use pip or uv directly:
 
@@ -119,6 +122,8 @@ pip install -e ".[models]"
 # IMPORTANT: For SAM3 support, install transformers pre-release
 pip install -U transformers --pre
 ```
+
+</details>
 
 ### Optional models
 
