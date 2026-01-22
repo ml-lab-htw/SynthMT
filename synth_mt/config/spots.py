@@ -58,9 +58,7 @@ class SpotTuningConfig(BaseConfig):
             max(radius_min, self.radius_max_range[0]),
             self.radius_max_range[1],
         )
-        kernel_size_min = trial.suggest_int(
-            f"{name}_kernel_size_min", *self.kernel_size_min_range
-        )
+        kernel_size_min = trial.suggest_int(f"{name}_kernel_size_min", *self.kernel_size_min_range)
         kernel_size_max = trial.suggest_int(
             f"{name}_kernel_size_max",
             max(kernel_size_min, self.kernel_size_max_range[0]),
@@ -110,7 +108,6 @@ class SpotTuningConfig(BaseConfig):
             f"Successfully created SpotConfig for '{name}' via Optuna trial. Final config: {config.asdict()}"
         )
         return config
-
 
 
 @dataclass(eq=False)
@@ -213,6 +210,3 @@ class SpotConfig(BaseConfig):
             #     print(f"NO:  {field_name}")
 
         return obj
-
-
-

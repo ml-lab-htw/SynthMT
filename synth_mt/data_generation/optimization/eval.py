@@ -56,7 +56,7 @@ def evaluate_tuning_cfg(tuning_config_path: str, output_dir: str):
         logger.info(f"Trial {i + 1}/{top_n}: Value = {trial.value:.4f}")
 
         current_cfg = SyntheticDataConfig.from_trial(trial)
-        
+
         current_cfg.num_frames = tuning_cfg.output_config_num_frames
         current_cfg.id = f"{tuning_cfg.output_config_id}_rank_{i + 1}"
         current_cfg.generate_mt_mask = True
@@ -76,7 +76,7 @@ def evaluate_tuning_cfg(tuning_config_path: str, output_dir: str):
 def evaluate_synthetic_data_cfg(
     cfg: SyntheticDataConfig,
     tuning_cfg: TuningConfig,
-    output_dir: str|None = None,
+    output_dir: str | None = None,
     is_for_expert_validation: bool = True,
 ) -> Tuple[List[np.ndarray], List[np.ndarray]]:
     """

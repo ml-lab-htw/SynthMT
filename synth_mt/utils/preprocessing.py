@@ -137,7 +137,6 @@ def process_image(
             processed_image = 1 - processed_image
     elif invert:
         processed_image = 255 - processed_image
-        # TODO Mario: test FIESTA on this
 
     if histogram_normalization:
         if not HAS_CELLSAM:

@@ -5,11 +5,13 @@ from synth_mt.benchmark.models.base import BaseModel
 
 logger = logging.getLogger(__name__)
 
+
 # Optional imports - these may fail if dependencies are not installed
 def _safe_import(module_path: str, class_name: str) -> Optional[Type[BaseModel]]:
     """Safely import a model class, returning None if import fails."""
     try:
         import importlib
+
         module = importlib.import_module(module_path)
         return getattr(module, class_name)
     except (ImportError, ModuleNotFoundError, RuntimeError) as e:

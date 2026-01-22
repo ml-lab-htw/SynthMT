@@ -12,6 +12,7 @@ try:
 except ImportError as e:
     logger.warning(f"Failed to import cellpose: {e}")
 
+
 class CellposeSAM(BaseModel):
     """
     Cellpose-SAM (CPSAM) instance segmentation.
@@ -144,4 +145,3 @@ class CellposeSAM(BaseModel):
                 processed_masks.append(masks.astype(np.uint16))
 
         return processed_masks
-

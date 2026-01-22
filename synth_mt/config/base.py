@@ -54,8 +54,8 @@ class BaseConfig(ABC):
             logger.debug(f"Data after overrides: {data}")
 
         # Ensure 'save_dir' is included in the configuration data
-        if 'save_dir' not in data:
-            data['save_dir'] = '.models'  # Default value for save_dir
+        if "save_dir" not in data:
+            data["save_dir"] = ".models"  # Default value for save_dir
 
         # Create the instance from the loaded data
         instance = cls.from_dict(data)

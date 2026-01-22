@@ -639,7 +639,7 @@ def calculate_segmentation_metrics(
     gt_masks: Union[np.ndarray, List[np.ndarray]],
     pred_masks: Optional[Union[np.ndarray, List[Optional[np.ndarray]]]] = None,
     anchor_points_instance_masks: Optional[List[Optional[list]]] = None,
-        thresholds=None,
+    thresholds=None,
     use_skeletonized_version=True,
     spline_s=0,
 ) -> Tuple[Dict[str, float], Dict[str, float]]:

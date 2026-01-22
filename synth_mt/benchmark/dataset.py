@@ -10,6 +10,7 @@ import numpy as np
 
 logger = logging.getLogger(__name__)
 
+
 class BenchmarkDataset:
     """Loads the synthetic dataset for benchmarking."""
 
@@ -22,11 +23,11 @@ class BenchmarkDataset:
         return self.image_files[idx]
 
     def __init__(
-            self,
-            image_path: str,
-            mask_mapping: Tuple[str, str] = ("images", "masks"),
-            num_samples: int = -1,
-            seed: int = 42,
+        self,
+        image_path: str,
+        mask_mapping: Tuple[str, str] = ("images", "masks"),
+        num_samples: int = -1,
+        seed: int = 42,
     ):
         self.mask_mapping = mask_mapping
         self.image_path = image_path
@@ -39,12 +40,6 @@ class BenchmarkDataset:
         if 0 < num_samples < len(self.image_files):
             random.seed(seed)
             self.image_files = random.sample(self.image_files, num_samples)
-        #
-        # if "synthetic" in self.image_path:
-        #     self.image_files[0] = "data/SynMT/synthetic/full/images/series_250404_GLO28_R01_6um HEK PHK10_2nM P31_002_cropped_flatfield_registered_crop_8_rank_1_frame_0011.png"
-        # else:
-        #     self.image_files[0] = "data/SynMT/real/small/single_frame/241018_GLO15_R4_6um Pf-PPF20_64nM P31_005_cropped_flatfield_registered_shortened_crop_8_frame_106.png"
-
 
         if not self.image_files:
             raise FileNotFoundError(f"Dataset not found or incomplete in {self.image_path}")

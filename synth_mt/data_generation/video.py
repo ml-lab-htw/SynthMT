@@ -62,11 +62,7 @@ def render_frame(
     # ─── Initialization ──────────────────────────────────────────
     # Initialize background as a float32 array in the range [0, 1]
     frame = np.full((*cfg.img_size, 3), cfg.background_level, dtype=np.float32)
-    mt_mask = (
-        np.zeros((len(mts), *cfg.img_size), dtype=np.uint16)
-        if return_mt_mask
-        else None
-    )
+    mt_mask = np.zeros((len(mts), *cfg.img_size), dtype=np.uint16) if return_mt_mask else None
 
     if debug_steps:
         # save intermediate frames for debugging
@@ -83,9 +79,7 @@ def render_frame(
     seed_mask = None
     if frame_idx == 0 and return_seed_mask:
         seed_mask = (
-            np.zeros((len(mts), *cfg.img_size), dtype=np.uint16)
-            if return_seed_mask
-            else None
+            np.zeros((len(mts), *cfg.img_size), dtype=np.uint16) if return_seed_mask else None
         )
 
     gt_data: List[Dict[str, Any]] = []
@@ -100,9 +94,7 @@ def render_frame(
         logger.debug(f"Frame {frame_idx}: Applying jitter: {jitter.tolist()}")
 
     # ─── Simulate and Draw Microtubules (Parallelized) ──────────
-    args = [
-        (mt, cfg, frame, frame_idx, return_seed_mask, jitter) for mt in mts
-    ]
+    args = [(mt, cfg, frame, frame_idx, return_seed_mask, jitter) for mt in mts]
     results = []
     with concurrent.futures.ThreadPoolExecutor() as executor:
         futures = [executor.submit(draw_mt, *arg) for arg in args]
@@ -271,7 +263,9 @@ def render_frame(
 
     # ─── Apply Augmentations ────────────────────────────────
     if aug_pipeline and cfg.albumentations and cfg.albumentations["p"] > 0:
-        logger.debug(f"Frame {frame_idx}: Applying Albumentations (p={cfg.albumentations['p']:.2f}).")
+        logger.debug(
+            f"Frame {frame_idx}: Applying Albumentations (p={cfg.albumentations['p']:.2f})."
+        )
         try:
             # Albumentations expects uint8 or float, ensure float [0,1]
             # Convert back to original frame type if needed
@@ -459,9 +453,7 @@ def generate_video(
     output_manager_main = OutputManager(cfg, os.path.join(base_output_dir, "full"))
 
     if is_for_expert_validation:
-        output_manager_validation_set = OutputManager(
-            cfg, os.path.join(base_output_dir, "small")
-        )
+        output_manager_validation_set = OutputManager(cfg, os.path.join(base_output_dir, "small"))
         validation_image_idx = random.randint(0, cfg.num_frames - 1)
     else:
         output_manager_validation_set = None

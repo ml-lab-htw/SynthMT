@@ -14,7 +14,11 @@ from synth_mt.benchmark.models.anchor_point_model import AnchorPointModel
 from synth_mt.benchmark.models.factory import ModelFactory, setup_model_factory
 from synth_mt.utils.logger import setup_logging
 from synth_mt.utils.matlab import matlab_engine
-from synth_mt.utils.postprocessing import filter_anchor_points, filter_instance_masks, get_area_length_ranges
+from synth_mt.utils.postprocessing import (
+    filter_anchor_points,
+    filter_instance_masks,
+    get_area_length_ranges,
+)
 from synth_mt.utils.preprocessing import process_image
 
 logger = setup_logging(log_dir=".logs")
@@ -36,9 +40,7 @@ def define_search_space(trial, model_name):
     params["histogram_normalization"] = trial.suggest_categorical(
         "histogram_normalization", [True, False]
     )
-    params["clip_to_percentiles"] = trial.suggest_categorical(
-        "clip_to_percentiles", [True, False]
-    )
+    params["clip_to_percentiles"] = trial.suggest_categorical("clip_to_percentiles", [True, False])
 
     # Model-specific parameters
     model_name = model_name.lower()
@@ -183,7 +185,9 @@ def objective_function(
                     anchor_points,
                     min_length=postprocessing_props["min_length"],
                     max_length=postprocessing_props["max_length"],
-                    image_resolution=processed_images[0].shape[:2],  # Assuming all images have same resolution
+                    image_resolution=processed_images[0].shape[
+                        :2
+                    ],  # Assuming all images have same resolution
                     border_margin=-1,
                 )
                 all_anchor_points.append(anchor_points)

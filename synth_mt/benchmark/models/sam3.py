@@ -409,7 +409,7 @@ if __name__ == "__main__":
     # img_path = os.path.join(img_folder, img_files[0])
     img_path = os.path.join(
         img_folder,
-        "series_5_9uMporcTub_300nMPfSPM1_1800nMPfTrxL1_repeat2__crop_6_rank_6_frame_0037.png",
+        "image.png",
     )
     image_rgb = Image.open(img_path)
     image = ImageOps.grayscale(image_rgb)

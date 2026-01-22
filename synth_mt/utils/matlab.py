@@ -48,4 +48,3 @@ def matlab_engine():
         yield engine
     finally:
         MatlabEngine.terminate_engine()
-

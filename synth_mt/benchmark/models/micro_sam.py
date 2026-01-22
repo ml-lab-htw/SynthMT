@@ -11,10 +11,12 @@ logger = logging.getLogger()
 
 try:
     from micro_sam import util
-    from micro_sam.automatic_segmentation import get_predictor_and_segmenter, InstanceSegmentationWithDecoder
+    from micro_sam.automatic_segmentation import (
+        get_predictor_and_segmenter,
+        InstanceSegmentationWithDecoder,
+    )
 except ImportError as e:
     logger.warning(f"Failed to import micro_sam: {e}")
-
 
 
 class MicroSAM(BaseModel):

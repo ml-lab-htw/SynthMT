@@ -60,7 +60,7 @@ def export_full_tiff_video_maks(masks: list[Any], path: Any | None):
                 path,
                 full_mask_stack,
                 compression="zstd",
-                metadata={'axes': 'TCYX'},
+                metadata={"axes": "TCYX"},
                 ome=True,
             )
 
@@ -219,9 +219,7 @@ class OutputManager:
         if self.write_image_masks_tiff and self.cfg.generate_mt_mask:
             self.paths["mt_mask_img_dir"] = os.path.join(self.base_output_dir, "image_masks")
         if self.write_image_masks_tiff and self.cfg.generate_seed_mask:
-            self.paths["seed_mask_img_dir"] = os.path.join(
-                self.base_output_dir, "image_masks_seed"
-            )
+            self.paths["seed_mask_img_dir"] = os.path.join(self.base_output_dir, "image_masks_seed")
         if self.write_image_masks_png and self.cfg.generate_mt_mask:
             self.paths["mt_mask_img_colored_dir"] = os.path.join(
                 self.base_output_dir, "image_masks_colored"
@@ -376,20 +374,12 @@ class OutputManager:
             self.writers["video_mp4"].write(cv2.cvtColor(frame_img, cv2.COLOR_RGB2BGR))
 
         # MP4 MASKS COLORED VIDEO - the whole MTs
-        if (
-            self.write_video_masks_mp4
-            and "mt_mask_mp4" in self.writers
-            and mt_mask is not None
-        ):
+        if self.write_video_masks_mp4 and "mt_mask_mp4" in self.writers and mt_mask is not None:
             colored_mask = (label2rgb(mt_mask, bg_label=0) * 255).astype(np.uint8)
             self.writers["mt_mask_mp4"].write(cv2.cvtColor(colored_mask, cv2.COLOR_RGB2BGR))
 
         # MP4 MASKS COLORED VIDEO - the seeds
-        if (
-            self.write_video_masks_mp4
-            and "seed_mask_mp4" in self.writers
-            and seed_mask is not None
-        ):
+        if self.write_video_masks_mp4 and "seed_mask_mp4" in self.writers and seed_mask is not None:
             colored_mask = (label2rgb(seed_mask, bg_label=0) * 255).astype(np.uint8)
             self.writers["seed_mask_mp4"].write(cv2.cvtColor(colored_mask, cv2.COLOR_RGB2BGR))
 
@@ -404,11 +394,7 @@ class OutputManager:
             )
 
         # GIF MASKS COLORED VIDEO - the seeds
-        if (
-            self.write_video_masks_gif
-            and "seed_mask_gif" in self.writers
-            and seed_mask is not None
-        ):
+        if self.write_video_masks_gif and "seed_mask_gif" in self.writers and seed_mask is not None:
             self.writers["seed_mask_gif"].append_data(
                 (label2rgb(seed_mask, bg_label=0) * 255).astype(np.uint8)
             )
@@ -419,11 +405,7 @@ class OutputManager:
         if export_current_frame:
             base_name = f"series_{self.cfg.id}_frame_{frame_index:04d}"
             # Save individual frames as PNG
-            if (
-                self.write_image_pngs
-                and "video_png_dir" in self.paths
-                and frame_img is not None
-            ):
+            if self.write_image_pngs and "video_png_dir" in self.paths and frame_img is not None:
                 imageio.imwrite(
                     os.path.join(self.paths["video_png_dir"], f"{base_name}.png"),
                     frame_img,
@@ -431,11 +413,7 @@ class OutputManager:
                 )
 
             # Save individual frames as TIFF
-            if (
-                self.write_image_tiff
-                and "image_tiff_dir" in self.paths
-                and frame_img is not None
-            ):
+            if self.write_image_tiff and "image_tiff_dir" in self.paths and frame_img is not None:
                 tifffile.imwrite(
                     os.path.join(self.paths["image_tiff_dir"], f"{base_name}.tif"),
                     frame_img,
@@ -500,8 +478,6 @@ class OutputManager:
         ##################################
         if self.write_gt:
             self.all_gt.append(gt_data)
-
-
 
     def close(self):
         """Closes all active writers and saves any remaining data."""
