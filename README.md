@@ -57,17 +57,11 @@ Our benchmark evaluates nine fully automated methods for MT analysis. Key result
 We recommend using **[uv](https://github.com/astral-sh/uv)** for fast, reliable Python package management. uv is significantly faster than pip and provides better dependency resolution. It works seamlessly within conda environments.
 As python version, we recommend using Python 3.11.
 
-<details>
-<summary><strong>Environment setup (choose one)</strong> — Conda+uv (recommended), Conda+pip, or pip-only</summary>
+### Option 1: Using Conda (Recommended)
 
-### Option 1: Using Conda + uv (Recommended)
-
-This is the recommended approach as it provides conda's environment management (required for µSAM) with uv's fast package installation.
+This is the recommended approach as it provides conda's environment management (required for µSAM).
 
 ```bash
-# Install uv if you haven't already
-curl -LsSf https://astral.sh/uv/install.sh | sh
-
 # Clone the repository
 git clone https://github.com/ml-lab-htw/SynthMT.git
 cd SynthMT
@@ -76,32 +70,11 @@ cd SynthMT
 conda env create -f environment.yml
 conda activate synth_mt
 
-# Use uv for fast package installation within conda
-uv pip install -e .
-
 # IMPORTANT: For SAM3 support, install transformers pre-release
 uv pip install -U transformers --pre
 ```
 
-### Option 2: Using Conda + pip
-
-```bash
-# Clone the repository
-git clone https://github.com/ml-lab-htw/SynthMT.git
-cd SynthMT
-
-# Create conda environment from environment.yml (includes micro_sam)
-conda env create -f environment.yml
-conda activate synth_mt
-
-# Install the package
-pip install -e .
-
-# IMPORTANT: For SAM3 support, install transformers pre-release
-pip install -U transformers --pre
-```
-
-### Option 3: Using pip/uv only
+### Option 2: Using pip only (without microSAM)
 
 If you don't need microSAM (µSAM), you can use pip or uv directly:
 
@@ -122,24 +95,6 @@ pip install -e ".[models]"
 # IMPORTANT: For SAM3 support, install transformers pre-release
 pip install -U transformers --pre
 ```
-
-</details>
-
-### Optional models
-
-Some models are optional and require extra dependencies or setup. Install only the models you plan to use. The short table below summarizes the most common optional models and a one-line install command; detailed notes follow.
-
-| Model / Feature      | Quick install / hint                                                                 | Short note                                                                                      |
-|---------------------:|:------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------------------|
-| microSAM (µSAM)      | conda install -c conda-forge micro_sam                                              | Conda package; recommended inside conda env                                                   |
-| CellSAM (fork)       | pip install git+https://github.com/mario-koddenbrock/cellSAM.git                     | Fork with compatibility fixes; may require access token                                         |
-| TARDIS               | pip install tardis-em==0.3.10                                                       | Pinned to 0.3.10 (recommended)                                                                  |
-| StarDist             | pip install stardist==0.9.1                                                         | Requires TensorFlow (install appropriate TF wheel first)                                       |
-| Cellpose             | pip install "cellpose>=3.0.0" or conda install -c conda-forge cellpose            | Requires PyTorch; prefer conda for complex CUDA setups                                         |
-| SAM3                 | pip install -U transformers --pre                                                  | Pre-release Transformers required for SAM3                                                     |
-| FIESTA (MATLAB)      | git clone https://github.com/ml-lab-htw/FIESTA.git ./fiesta                         | MATLAB Engine for Python required (tested with MATLAB R2025b)                                  |
-
----
 
 ### Detailed optional model installation & notes
 
@@ -168,6 +123,7 @@ conda install -c conda-forge micro_sam
 ```bash
 pip install git+https://github.com/mario-koddenbrock/cellSAM.git
 ```
+(as also done in the `requirements.txt` file).
 
 - After installation, create a `.env` with the access token if required:
 

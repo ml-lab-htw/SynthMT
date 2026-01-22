@@ -1,10 +1,13 @@
 from __future__ import annotations
+import logging
 import numpy as np
 from PIL import Image
 import torch
 from transformers import pipeline
 
 from .base import BaseModel
+
+logger = logging.getLogger()
 
 
 class SAM(BaseModel):
@@ -79,6 +82,7 @@ class SAM(BaseModel):
     def load_model(self):
         if self._model is not None:
             return
+        logger.info(f"Loading SAM model '{self._model_name}' on device '{self._device}'")
 
         self._model = pipeline("mask-generation", model=self._model_name, device=self._device)
 

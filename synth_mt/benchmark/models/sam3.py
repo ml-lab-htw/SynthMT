@@ -87,6 +87,7 @@ class SAM3(BaseModel):
         if self._model is not None:
             logger.debug("Model already loaded; skipping load_model")
             return
+        logger.info(f"Loading SAM3 model on device '{self._device}'")
 
         try:
             # This will use the cached version if available for the current device
