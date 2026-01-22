@@ -32,5 +32,5 @@ dependencies:
       # Install the package itself in editable mode
       - -e .
 
-      # Note: For SAM3 support, additionally run:
-      #   pip install -U transformers --pre
+      # Note: For SAM3 support, install the transformers pre-release required for SAM3
+      - transformers==5.0.0rc3

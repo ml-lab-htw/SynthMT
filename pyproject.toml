@@ -61,7 +61,7 @@ dependencies = [
     "torch>=2.0.0",
     "torchvision>=0.15.0",
     # Transformers - Note: for SAM3, use: pip install -U transformers --pre
-    "transformers>=4.47.0",
+    "transformers==5.0.0rc3",
     # HuggingFace ecosystem
     "datasets>=2.14.0",
     "huggingface-hub>=0.17.0",

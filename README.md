@@ -60,6 +60,7 @@ As python version, we recommend using Python 3.11.
 ### Using Conda (Recommended)
 
 This is the recommended approach as it provides conda's environment management (required for µSAM).
+As python version, we recommend using Python 3.11.
 
 ```bash
 # Clone the repository
@@ -69,9 +70,6 @@ cd SynthMT
 # Create conda environment from environment.yml
 conda env create -f environment.yml
 conda activate synth_mt
-
-# IMPORTANT: For SAM3 support, install transformers pre-release
-uv pip install -U transformers --pre
 ```
 
 ### Detailed optional model installation & notes
@@ -209,11 +207,14 @@ conda install -c conda-forge cellpose
 - SAM3 requires the pre-release transformers packages in some setups and may need access tokens or extra model files depending on the provider.
 
 ```bash
-pip install -U transformers --pre
+# If you created the conda environment from `environment.yml`, transformers==5.0.0rc3
+# will already be installed via pip. If you are managing packages manually or using
+# a different environment, install the pre-release pinned by this project:
+pip install -U transformers==5.0.0rc3
 ```
 
 - Notes:
-  - Using SAM3 in this repository often requires additional configuration (model checkpoints, provider access). Follow SAM3 provider instructions and ensure `transformers` pre-release is installed.
+  - Using SAM3 in this repository often requires additional configuration (model checkpoints, provider access). Follow SAM3 provider instructions and ensure the pinned transformers pre-release is present in your environment.
 
 </details>
 
