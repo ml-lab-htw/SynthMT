@@ -120,91 +120,188 @@ pip install -e ".[models]"
 pip install -U transformers --pre
 ```
 
-### SAM3 Support
+### Optional models
 
-SAM3 is a very recent model that requires the pre-release version of *transformers:*
+Some models are optional and require extra dependencies or setup. Install only the models you plan to use. The short table below summarizes the most common optional models and a one-line install command; detailed notes follow.
+
+| Model / Feature      | Quick install / hint                                                                 | Short note                                                                                      |
+|---------------------:|:------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------------------|
+| microSAM (µSAM)      | conda install -c conda-forge micro_sam                                              | Conda package; recommended inside conda env                                                   |
+| CellSAM (fork)       | pip install git+https://github.com/mario-koddenbrock/cellSAM.git                     | Fork with compatibility fixes; may require access token                                         |
+| TARDIS               | pip install tardis-em==0.3.10                                                       | Pinned to 0.3.10 (recommended)                                                                  |
+| StarDist             | pip install stardist==0.9.1                                                         | Requires TensorFlow (install appropriate TF wheel first)                                       |
+| Cellpose             | pip install "cellpose>=3.0.0" or conda install -c conda-forge cellpose            | Requires PyTorch; prefer conda for complex CUDA setups                                         |
+| SAM3                 | pip install -U transformers --pre                                                  | Pre-release Transformers required for SAM3                                                     |
+| FIESTA (MATLAB)      | git clone https://github.com/ml-lab-htw/FIESTA.git ./fiesta                         | MATLAB Engine for Python required (tested with MATLAB R2025b)                                  |
+
+---
+
+### Detailed optional model installation & notes
+
+Below are per-model installation commands and platform-specific notes. These assume you are in the project's Python environment (conda env or virtualenv) created following the Installation section above.
+
+<details>
+<summary><strong>microSAM (µSAM)</strong> — Quick install & notes</summary>
+
+- Quick install (conda):
 
 ```bash
-pip install -U transformers --pre
+conda install -c conda-forge micro_sam
 ```
 
-### CellSAM Support
+- Notes:
+  - microSAM is distributed on conda-forge and expects to run inside a conda environment.
+  - Use the environment created from `environment.yml` or create a fresh conda env with Python 3.11.
 
-CellSAM required small adaptations to run within this pipeline. While our upstream pull request is pending, please install and use our fork of CellSAM (contains compatibility fixes):
+</details>
+
+<details>
+<summary><strong>CellSAM (fork)</strong> — Install our compatibility fork & notes</summary>
+
+- Install our compatibility fork (recommended until upstream PR is merged):
 
 ```bash
 pip install git+https://github.com/mario-koddenbrock/cellSAM.git
 ```
 
-After installation, create a `.env` file with your access token if required:
+- After installation, create a `.env` with the access token if required:
 
 ```
 DEEPCELL_ACCESS_TOKEN=your_token_here
 ```
 
-Once the upstream PR is merged you can switch back to the official package.
-
-### FIESTA (MATLAB) Support
-
-We provide a small fork of the original FIESTA project with modifications that enable running FIESTA in script mode from Python. Use our fork: https://github.com/ml-lab-htw/FIESTA.git.
-
-FIESTA is implemented in MATLAB. From Python, we call it using the MATLAB Engine API for Python — see the official guide:
-
-https://www.mathworks.com/help/matlab/matlab-engine-for-python.html
-
-We developed and tested our integration with MATLAB R2025b.
-
-Important installation notes and a recommended checkout location
-
-- Clone the fork into the SynthMT project root so the folder appears as `SynthMT/fiesta`. This is the simplest setup and works with the bundled helper at `synth_mt/benchmark/models/fiesta.py`:
+- Quick instructions to create the `.env` file (macOS / zsh):
 
 ```bash
+# Create .env in the project root (overwrites if it exists)
+echo 'DEEPCELL_ACCESS_TOKEN=your_token_here' > .env
+
+# Restrict permissions so the token file isn't world-readable
+chmod 600 .env
+
+# Prevent accidentally committing it to git (if not already ignored)
+# This appends '.env' to .gitignore if it's not present
+grep -qxF '.env' .gitignore || echo '.env' >> .gitignore
+```
+
+- Alternatives and notes:
+  - You can set the token for a single shell session instead of a file:
+
+    ```bash
+    export DEEPCELL_ACCESS_TOKEN=your_token_here
+    ```
+
+  - For CI or remote deployments, store the token in CI secrets or environment configuration rather than a file in the repo.
+  - The code loads `.env` from the current working directory (see `synth_mt/benchmark/models/cellsam.py`), so place the `.env` in the project root or the working directory you run the script from.
+  - You can also pass the token programmatically to the model if supported by the API (e.g., CellSAM(access_token='your_token')).
+
+- Notes:
+  - The fork includes small compatibility fixes for integration in this pipeline. Once upstream fixes land, you can switch back to the official package.
+  - Installing inside a virtualenv or conda environment is recommended to avoid clashes.
+
+</details>
+
+<details>
+<summary><strong>TARDIS (tardis-em == 0.3.10)</strong> — Pinned install & notes</summary>
+
+- Install pinned version used in our experiments:
+
+```bash
+pip install tardis-em==0.3.10
+```
+
+- Notes:
+  - We recommend installing TARDIS inside a conda environment to avoid system-level dependency conflicts.
+  - If the package needs compiled extensions on your platform, ensure build tools are available (gcc/clang, python-dev headers).
+
+</details>
+
+<details>
+<summary><strong>StarDist (stardist == 0.9.1)</strong> — TensorFlow dependency & install</summary>
+
+- StarDist depends on TensorFlow. Install a system-appropriate TensorFlow wheel first (CPU/GPU, macOS vs Linux/Windows).
+
+Examples:
+
+```bash
+# macOS (Apple Silicon M1/M2) - recommended CPU build
+pip install tensorflow-macos
+
+# Linux / Windows or Intel macOS
+pip install tensorflow
+
+# Then install StarDist (pinned)
+pip install stardist==0.9.1
+```
+
+- Notes:
+  - For GPU acceleration, install the TensorFlow wheel that matches your CUDA toolkit before installing StarDist.
+  - Some features of StarDist rely on CSBDeep: `pip install csbdeep` if you need it.
+
+</details>
+
+<details>
+<summary><strong>Cellpose (>= 3.0.0)</strong> — PyTorch dependency & install</summary>
+
+- Cellpose requires PyTorch. Install a PyTorch wheel that matches your CUDA version or CPU-only wheel first, then install Cellpose.
+
+Examples (CPU-only PyTorch):
+
+```bash
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+pip install "cellpose>=3.0.0"
+```
+
+Or with conda (conda-forge):
+
+```bash
+conda install -c conda-forge cellpose
+```
+
+- Notes:
+  - For GPU support, follow the instructions at https://pytorch.org/get-started/locally/ to choose the correct CUDA build, then install Cellpose.
+  - On macOS Apple Silicon prefer CPU builds or follow PyTorch macOS guidance.
+
+</details>
+
+<details>
+<summary><strong>SAM3 (Segment Anything Model v3)</strong> — transformers pre-release</summary>
+
+- SAM3 requires the pre-release transformers packages in some setups and may need access tokens or extra model files depending on the provider.
+
+```bash
+pip install -U transformers --pre
+```
+
+- Notes:
+  - Using SAM3 in this repository often requires additional configuration (model checkpoints, provider access). Follow SAM3 provider instructions and ensure `transformers` pre-release is installed.
+
+</details>
+
+<details>
+<summary><strong>FIESTA (MATLAB)</strong> — Fork & MATLAB Engine</summary>
+
+- We provide a small fork of the original FIESTA project with modifications that enable running FIESTA in script mode from Python. Use our fork:
+
+```bash
+# recommended: clone into the SynthMT root so the folder appears as ./fiesta
 git clone https://github.com/ml-lab-htw/FIESTA.git ./fiesta
 ```
 
-- If you prefer a different location, clone anywhere and update the path used by your script or set the working directory accordingly.
-
-Quick start (summary):
-
-1. Clone the fork into the SynthMT root (recommended):
-
-```bash
-# from the SynthMT project root
-git clone https://github.com/ml-lab-htw/FIESTA.git ./fiesta
-```
-
-2. Install the MATLAB Engine for Python using the same Python interpreter/environment you will run SynthMT from. For MATLAB R2025b the engine sources are located under the app bundle; from macOS:
+- Install the MATLAB Engine for Python using the same Python interpreter/environment you will run SynthMT from. For MATLAB R2025b on macOS:
 
 ```bash
 cd /Applications/MATLAB_R2025b.app/extern/engines/python
 python3 -m pip install .
 ```
 
-3. Verify the engine is available in your active environment (example for `conda`):
+- Notes:
+  - The MATLAB Engine must be installed into the exact Python interpreter/environment you will run SynthMT from.
+  - We developed and tested our integration with MATLAB R2025b; adapt paths and instructions if you have a different MATLAB version.
 
-```bash
-conda activate synth_mt
-python -c "import matlab.engine; print('MATLAB engine available')"
-```
+</details>
 
-#### Notes & troubleshooting
-
-- The MATLAB Engine must be installed into the exact Python interpreter/environment you use to run your scripts.
-- If your MATLAB version or install location differs from `R2025b`, adapt the `cd` path accordingly.
-- See the fork for details and examples: https://github.com/ml-lab-htw/FIESTA.git
-
-### Optional Model Dependencies
-
-Some models require additional setup. Install these only if you plan to use the corresponding model.
-
-| Model               | Installation / Quick notes                                                                 | Notes                                                                                          |
-| ------------------- | ------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------- |
-| **microSAM (µSAM)** | `conda install -c conda-forge micro_sam`                                                   | Requires conda                                                                                 |
-| **CellSAM**         | `pip install git+https://github.com/mario-koddenbrock/cellSAM.git`                         | Fork with compatibility fixes (PR pending). Create `.env` with `DEEPCELL_ACCESS_TOKEN` if needed. |
-| **TARDIS**          | `pip install tardis-em==0.3.10`                                                            | Pinned to **0.3.10** (recommended)                                                             |
-| **stardist**        | `pip install stardist==0.9.1`                                                               | Requires TensorFlow (install system-appropriate TF first)                                     |
-| **SAM3**            | `pip install -U transformers --pre`                                                        | Pre-release transformers; access may be required for some models on HuggingFace                |
-| **FIESTA (MATLAB)** | `git clone https://github.com/ml-lab-htw/FIESTA.git ./fiesta`                              | MATLAB app (tested with **R2025b**). Install the MATLAB Engine API for Python; clone into the project root as `./fiesta` or update paths accordingly. |
+---
 
 ## Quick Start
 
