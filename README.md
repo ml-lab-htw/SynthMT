@@ -130,68 +130,81 @@ pip install -U transformers --pre
 
 ### CellSAM Support
 
-CellSAM required small adaptations/fixes to run within this pipeline. While our upstream pull request is pending, please install and use our fork of CellSAM:
+CellSAM required small adaptations to run within this pipeline. While our upstream pull request is pending, please install and use our fork of CellSAM (contains compatibility fixes):
 
 ```bash
 pip install git+https://github.com/mario-koddenbrock/cellSAM.git
 ```
 
-The fork contains the compatibility fixes; once the upstream PR is merged you can switch back to the official package.
+After installation, create a `.env` file with your access token if required:
+
+```
+DEEPCELL_ACCESS_TOKEN=your_token_here
+```
+
+Once the upstream PR is merged you can switch back to the official package.
 
 ### Running FIESTA (MATLAB)
 
-If you want to run FIESTA in script mode, please use our fork (clone or browse): [ml-lab-htw/FIESTA on GitHub](https://github.com/ml-lab-htw/FIESTA.git) in which we modified the original project.
+We provide a small fork of the original FIESTA project with modifications that enable running FIESTA in script mode from Python. Use our fork: https://github.com/ml-lab-htw/FIESTA.git.
 
-FIESTA is a MATLAB application. From Python you call it using the MATLAB Engine API for Python; see the official MathWorks guide: [MATLAB Engine API for Python](https://www.mathworks.com/help/matlab/matlab-engine-for-python.html).
+FIESTA is implemented in MATLAB. From Python, we call it using the MATLAB Engine API for Python — see the official guide:
 
-We developed and tested the integration with **MATLAB R2025b**.
+https://www.mathworks.com/help/matlab/matlab-engine-for-python.html
 
-**Important**: the Python integration expects the FIESTA code to be available at `./fiesta` (relative to the working directory of the SynthMT process). The simplest approach is to clone the fork into the SynthMT project root so the folder appears as `SynthMT/fiesta` (for example: `git clone https://github.com/ml-lab-htw/FIESTA.git /path/to/SynthMT/fiesta`). If you place it elsewhere, update paths or the working directory accordingly.
+We developed and tested our integration with MATLAB R2025b.
 
-#### Quick start
+Important installation notes and a recommended checkout location
 
-1. Clone the forked FIESTA repository (replace `/path/to/SynthMT/fiesta` with the target path on your machine):
+- Clone the fork into the SynthMT project root so the folder appears as `SynthMT/fiesta`. This is the simplest setup and works with the bundled helper at `synth_mt/benchmark/models/fiesta.py`:
 
 ```bash
-git clone https://github.com/ml-lab-htw/FIESTA.git /path/to/SynthMT/fiesta
+git clone https://github.com/ml-lab-htw/FIESTA.git ./fiesta
 ```
 
-2. Install the MATLAB Engine for Python on the machine that has MATLAB installed (run once). Use the Python interpreter/environment you will run your code from. For MATLAB R2025b the engine sources are under the app bundle:
+- If you prefer a different location, clone anywhere and update the path used by your script or set the working directory accordingly.
+
+Quick start (summary):
+
+1. Clone the fork into the SynthMT root (recommended):
+
+```bash
+# from the SynthMT project root
+git clone https://github.com/ml-lab-htw/FIESTA.git ./fiesta
+```
+
+2. Install the MATLAB Engine for Python using the same Python interpreter/environment you will run SynthMT from. For MATLAB R2025b the engine sources are located under the app bundle; from macOS:
 
 ```bash
 cd /Applications/MATLAB_R2025b.app/extern/engines/python
 python3 -m pip install .
 ```
 
-3. Verify the engine was installed into the same Python environment you will use (for example, your `conda` environment `synth_mt`):
+3. Verify the engine is available in your active environment (example for `conda`):
 
 ```bash
-# activate the environment you plan to run from, then try importing the engine interactively
 conda activate synth_mt
 python -c "import matlab.engine; print('MATLAB engine available')"
 ```
 
 #### Notes & troubleshooting
 
-- The MATLAB Engine must be installed into the same Python interpreter/environment you use to run your scripts. If you use `conda activate synth_mt`, install the engine while that environment is active.
+- The MATLAB Engine must be installed into the exact Python interpreter/environment you use to run your scripts.
 - If your MATLAB version or install location differs from `R2025b`, adapt the `cd` path accordingly.
-- For details about available MATLAB entry points and how we adapted FIESTA for script mode, see the forked repository: https://github.com/ml-lab-htw/FIESTA.git
+- See the fork for details and examples: https://github.com/ml-lab-htw/FIESTA.git
 
 ### Optional Model Dependencies
 
-Some models require additional setup:
+Some models require additional setup. Install these only if you plan to use the corresponding model.
 
-| Model               | Installation                                                       | Notes                                                                                                                                                                                                                                                                                                                                                                                      |
-| ------------------- | ------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **microSAM (µSAM)** | `conda install -c conda-forge micro_sam`                           | Requires conda                                                                                                                                                                                                                                                                                                                                                                             |
-| **CellSAM**         | `pip install git+https://github.com/mario-koddenbrock/cellSAM.git` | Requires `DEEPCELL_ACCESS_TOKEN` in `.env. Adaptations pending upstream — use the fork above until the pull request is merged.`                                                                                                                                                                                                                                                            |
-| **TARDIS**          | `pip install tardis-em==0.3.10`                                    | TARDIS pinned to **0.3.10** (recommended)                                                                                                                                                                                                                                                                                                                                                  |
-| **SAM3**            | `pip install -U transformers --pre`                                | Pre-release transformers, needs granted access on [Huggingface](https://huggingface.co/facebook/sam3)                                                                                                                                                                                                                                                                                      |
-| **FIESTA (MATLAB)** | `git clone https://github.com/ml-lab-htw/FIESTA.git ./fiesta`      | MATLAB app (tested with **R2025b**). Install the [MATLAB Engine API for Python](https://www.mathworks.com/help/matlab/matlab-engine-for-python.html). After cloning, install the engine (example): `cd /Applications/MATLAB_R2025b.app/extern/engines/python && python3 -m pip install .`. Clone into the SynthMT root as `./fiesta` so `synth_mt/benchmark/models/fiesta.py` can find it. |
-
-### Apple Silicon Compatibility
-
-- **TensorFlow/Keras conflicts**: If you encounter issues on Apple Silicon, run: `pip uninstall pyarrow`
+| Model               | Installation / Quick notes                                                                 | Notes                                                                                          |
+| ------------------- | ------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------- |
+| **microSAM (µSAM)** | `conda install -c conda-forge micro_sam`                                                   | Requires conda                                                                                 |
+| **CellSAM**         | `pip install git+https://github.com/mario-koddenbrock/cellSAM.git`                         | Fork with compatibility fixes (PR pending). Create `.env` with `DEEPCELL_ACCESS_TOKEN` if needed. |
+| **TARDIS**          | `pip install tardis-em==0.3.10`                                                            | Pinned to **0.3.10** (recommended)                                                             |
+| **stardist**        | `pip install stardist==0.9.1`                                                               | Requires TensorFlow (install system-appropriate TF first)                                     |
+| **SAM3**            | `pip install -U transformers --pre`                                                        | Pre-release transformers; access may be required for some models on HuggingFace                |
+| **FIESTA (MATLAB)** | `git clone https://github.com/ml-lab-htw/FIESTA.git ./fiesta`                              | MATLAB app (tested with **R2025b**). Install the MATLAB Engine API for Python; clone into the project root as `./fiesta` or update paths accordingly. |
 
 ## Quick Start
 

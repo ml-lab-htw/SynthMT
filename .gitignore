@@ -212,3 +212,7 @@ output
 .temp
 synthetic_data_output
 /examples/tuning_config_modified.json
+
+# macOS Finder metadata
+.DS_Store
+**/.DS_Store
