@@ -37,6 +37,17 @@ class BenchmarkDataset:
             + glob(os.path.join(self.image_path, "*.tif"))
         )
 
+        if not self.image_files:
+            subfolders = glob(os.path.join(self.image_path, "*"))
+            for subfolder in subfolders:
+                if not os.path.isdir(subfolder):
+                    continue
+                self.image_files.extend(
+                    glob(os.path.join(subfolder, "*.png"))
+                    + glob(os.path.join(subfolder, "*.jpg"))
+                    + glob(os.path.join(subfolder, "*.tif"))
+                )
+
         if 0 < num_samples < len(self.image_files):
             random.seed(seed)
             self.image_files = random.sample(self.image_files, num_samples)
