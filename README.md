@@ -2,7 +2,7 @@
 
 [![Dataset on HuggingFace](https://img.shields.io/badge/🤗%20Dataset-SynthMT-blue)](https://huggingface.co/datasets/HTW-KI-Werkstatt/SynthMT)
 [![Project Page](https://img.shields.io/badge/Project%20Page-Interactive%20Demos-green)](https://DATEXIS.github.io/SynthMT-project-page)
-[![Paper](https://img.shields.io/badge/bioRxiv-Paper-red)](https://biorxiv.org/coming-soon)
+[![Paper](https://img.shields.io/badge/PLOS-Paper-red)](https://doi.org/10.1371/journal.pcbi.1013901)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 ![SynthMT Overview](examples/images/fig_overview.png)
@@ -33,9 +33,9 @@ Our benchmark evaluates nine fully automated methods for MT analysis. Key result
 
 ## 🔗 Resources
 
-| Resource       | Link                                                                                                                                      |
-| -------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| 📄 Paper        | [bioRxiv](https://www.biorxiv.org/content/10.64898/2026.01.09.698597v2)                                                                   |
+| Resource       | Link                                                                                                                                       |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| 📄 Paper        | [PLOS Computational Biology](https://doi.org/10.1371/journal.pcbi.1013901)                                                                |
 | 🌐 Project Page | [DATEXIS.github.io/SynthMT-project-page](https://DATEXIS.github.io/SynthMT-project-page) – **Interactive demos for all evaluated models** |
 | 🤗 Dataset      | [huggingface.co/datasets/HTW-KI-Werkstatt/SynthMT](https://huggingface.co/datasets/HTW-KI-Werkstatt/SynthMT)                              |
 | 💻 Code         | This repository                                                                                                                           |
@@ -401,15 +401,17 @@ If you use SynthMT in your research, please cite our paper:
 
 ```bibtex
 @article{koddenbrock2026synthetic,
-    author = {Koddenbrock, Mario and Westerhoff, Justus and Fachet, Dominik and Reber, Simone and Gers, Felix A. and Rodner, Erik},
+    doi = {10.1371/journal.pcbi.1013901},
+    author = {Koddenbrock, Mario AND Westerhoff, Justus AND Fachet, Dominik AND Reber, Simone AND Gers, Felix A. AND Rodner, Erik},
+    journal = {PLOS Computational Biology},
+    publisher = {Public Library of Science},
     title = {Synthetic data enables human-grade microtubule analysis with foundation models for segmentation},
-    elocation-id = {2026.01.09.698597},
     year = {2026},
-    doi = {10.64898/2026.01.09.698597},
-    publisher = {Cold Spring Harbor Laboratory},
-    URL = {https://www.biorxiv.org/content/early/2026/01/12/2026.01.09.698597},
-    eprint = {https://www.biorxiv.org/content/early/2026/01/12/2026.01.09.698597.full.pdf},
-    journal = {bioRxiv}
+    month = {05},
+    volume = {22},
+    url = {https://doi.org/10.1371/journal.pcbi.1013901},
+    pages = {1-25},
+    number = {5}
 }
 ```
 
@@ -430,4 +432,4 @@ Our work is funded by the Deutsche Forschungsgemeinschaft (DFG, German Research 
 
 ---
 
-[Project Page](https://DATEXIS.github.io/SynthMT-project-page) • [Dataset](https://huggingface.co/datasets/HTW-KI-Werkstatt/SynthMT) • [Paper]([https://biorxiv.org/coming-soon](https://www.biorxiv.org/content/10.64898/2026.01.09.698597v2))
+[Project Page](https://DATEXIS.github.io/SynthMT-project-page) • [Dataset](https://huggingface.co/datasets/HTW-KI-Werkstatt/SynthMT) • [Paper](https://doi.org/10.1371/journal.pcbi.1013901)
